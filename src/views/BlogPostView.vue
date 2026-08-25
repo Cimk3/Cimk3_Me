@@ -28,7 +28,7 @@ const error = ref('')
 async function load() {
   try {
     // 1. 先读目录清单，根据 slug 找到对应文章
-    const posts = await fetchJson('data/posts.json')
+    const posts = await fetchJson('/data/posts.json')
     const found = posts.find((p) => p.slug === route.params.slug)
     if (!found) throw new Error('文章不存在')
     post.value = found

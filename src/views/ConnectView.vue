@@ -33,7 +33,7 @@ const error = ref('')
 
 onMounted(async () => {
   try {
-    contacts.value = await fetchJson('data/contacts.json')
+    contacts.value = await fetchJson('/data/contacts.json')
   } catch (e) {
     error.value = e.message
   } finally {

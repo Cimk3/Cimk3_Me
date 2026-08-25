@@ -6,15 +6,15 @@
     <el-alert v-else-if="error" :title="error" type="error" show-icon :closable="false" />
     <template v-else>
       <div v-for="c in contacts" :key="c.label" class="contact-item" @click="handleContact(c)">
-        <el-icon :size="20">
+        <el-icon :size="36">
           <Icon :icon="c.icon" />
         </el-icon>
         <span class="contact-label">{{ c.label }}</span>
         <span v-if="!isLink(c)" class="contact-value">{{ c.value }}</span>
-        <el-icon v-if="c.copyable" :size="14" class="action-icon">
+        <el-icon v-if="c.copyable" :size="24" class="action-icon">
           <CopyDocument />
         </el-icon>
-        <el-icon v-else-if="isLink(c)" :size="16" class="action-icon">
+        <el-icon v-else-if="isLink(c)" :size="26" class="action-icon">
           <Icon icon="mdi:open-in-new" />
         </el-icon>
       </div>

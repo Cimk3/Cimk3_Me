@@ -1,7 +1,15 @@
 <template>
     <div class="layout">
+        <!-- 移动端菜单按钮 + 遮罩 -->
+        <div class="menu-btn" :class="{ open: menuOpen }" @click="menuOpen = !menuOpen">
+            <el-icon :size="20">
+                <Icon :icon="menuOpen ? 'mdi:close' : 'mdi:menu'" />
+            </el-icon>
+        </div>
+        <div class="sidebar-mask" v-if="menuOpen" @click="menuOpen = false"></div>
         <!-- 左侧导航栏 -->
-        <aside class="sidebar" :class="{ 'has-bg': showBg }" :style="showBg ? sidebarBgStyle : ''">
+        <aside class="sidebar" :class="{ 'has-bg': showBg, 'menu-open': menuOpen }"
+            :style="showBg ? sidebarBgStyle : ''">
             <div class="logo">
                 <img class="logo-avatar" src="/images/LayoutHead.png" alt="avatar" />
             </div>
@@ -54,7 +62,7 @@
 
 <script setup>
 import { useRoute } from 'vue-router'
-import { computed, ref ,watch, onMounted} from 'vue'
+import { computed, ref, watch, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { fetchJson } from '@/utils/content'
 import { showBg } from '@/store/ui'
@@ -110,7 +118,7 @@ watch(currentSrc, () => {
 // ===== BGM 播放逻辑结束 =====
 
 const menus = computed(() => [
-    { path: '/', name: t('menu.home'), icon: 'HomeFilled' },
+    { path: '/', name: t('menu.home'), icon: 'House' },
     { path: '/project', name: t('menu.project'), icon: 'FolderOpened' },
     { path: '/blog', name: t('menu.blog'), icon: 'Notebook' },
     { path: '/inspiration', name: t('menu.inspiration'), icon: 'Star' },
@@ -126,6 +134,12 @@ const toggleLocale = () => {
 const activeMenu = computed(() =>
     route.path.startsWith('/blog') ? '/blog' : route.path
 )
+
+// 移动端菜单开关，切换路由后自动收起
+const menuOpen = ref(false)
+watch(() => route.path, () => {
+    menuOpen.value = false
+})
 
 const isDark = ref(localStorage.getItem('theme') === 'dark')
 const applyTheme = () => {
@@ -223,22 +237,77 @@ const contentBgStyle = {
 
 /* 背景开启时：半透明遮罩提升可读性，内容置于遮罩之上 */
 .sidebar.has-bg {
-  position: relative;
+    position: relative;
 }
 
 .sidebar.has-bg::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-color: var(--sidebar-overlay);
-  pointer-events: none;
-  z-index: 0;
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--sidebar-overlay);
+    pointer-events: none;
+    z-index: 0;
 }
 
 .sidebar.has-bg .logo,
 .sidebar.has-bg .sidebar-menu,
 .sidebar.has-bg .sidebar-footer {
-  position: relative;
-  z-index: 1;
+    position: relative;
+    z-index: 1;
+}
+
+/* ===== 移动端适配 ===== */
+.menu-btn {
+    display: none;
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 1002;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: var(--content-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.sidebar-mask {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .menu-btn {
+        display: flex;
+    }
+
+    .sidebar-mask {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 1000;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 1001;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+    }
+
+    .sidebar.menu-open {
+        transform: translateX(0);
+    }
+
+    .content {
+        padding: 56px 12px 12px;
+    }
 }
 </style>

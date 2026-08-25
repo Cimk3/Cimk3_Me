@@ -2,6 +2,7 @@
   {"label": "Email", "value": "a2034379061@163.com", "icon": "mdi:email-outline", "copyable": true },
   {"label":"QQ","value":"2034379061","icon":"fa6-brands:qq","copyable":true},
   {"label":"WeChat","value":"as2034379061","icon":"ant-design:wechat-filled","copyable":true},
-  {"label":"小红书","value":"https://www.xiaohongshu.com/user/profile/615d84aa000000000201f2a0" ,"icon":"thesvg-color:xiaohongshu" },
-  {"label": "GitHub", "value": "https://github.com/Cimk3", "icon": "mdi:github" }
+  {"label":"小红书","value":"https://www.xiaohongshu.com/user/profile/615d84aa000000000201f2a0" ,"icon":"simple-icons:xiaohongshu" },
+  {"label": "GitHub", "value": "https://github.com/Cimk3", "icon": "mdi:github" },
+  {"label":"Gitee","value":"https://gitee.com/a2034379061","icon":"ri:gitee-fill"}
 ]

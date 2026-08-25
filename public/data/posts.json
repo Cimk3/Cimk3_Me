@@ -5,5 +5,12 @@
     "date": "2026-08-25",
     "summary": "第一篇文章，简单打个招呼",
     "md": "/blog/hello.md"
+  },
+  {
+    "slug":"recommend",
+    "title":"强烈推荐一部剧#1",
+    "date":"2026-08-25",
+    "summary":"推荐《福尔摩斯探案集》",
+    "md":"/blog/recommend.md"
   }
 ]

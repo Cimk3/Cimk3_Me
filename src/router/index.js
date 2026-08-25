@@ -30,6 +30,12 @@ const routes = [
         meta: { title: 'Blog' }
       },
       {
+        path: 'inspiration',
+        name: 'inspiration',
+        component: () => import('../views/InspirationView.vue'),
+        meta: { title: 'Inspiration' }
+      },
+      {
         path: 'connect',
         name: 'connect',
         component: () => import('../views/ConnectView.vue'),

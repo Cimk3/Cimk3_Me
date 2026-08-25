@@ -113,6 +113,7 @@ const menus = computed(() => [
     { path: '/', name: t('menu.home'), icon: 'HomeFilled' },
     { path: '/project', name: t('menu.project'), icon: 'FolderOpened' },
     { path: '/blog', name: t('menu.blog'), icon: 'Notebook' },
+    { path: '/inspiration', name: t('menu.inspiration'), icon: 'Star' },
     { path: '/connect', name: t('menu.connect'), icon: 'ChatDotRound' }
 ])
 

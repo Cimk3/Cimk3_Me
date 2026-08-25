@@ -1,6 +1,14 @@
 {
     "name": "Cimk3",
-    "slogan": "Welcome to my personal website",
-    "desc": "## 你好，我是 Cimk3\n\n一个热爱技术的学习者，现就读计算机科学与技术专业。\n\n- 正在开发笔记类应用「墨记」\n- 欢迎交流、共同成长",
-    "avatar": "/images/avatar.jpg"
+    "avatar": "/images/avatar.jpg",
+
+    "zh": {
+    "slogan": "欢迎来到我的主页😊",
+    "desc": "# 你好，我是 Cimk3\n \n一个热爱技术的学习者，现就读计算机科学与技术专业。\n \n- 喜欢做些小东西 \n- 不断学习知识和技术中💻\n### 欢迎交流、共同成长🫡"
+    },
+
+    "en": {
+    "slogan": "Welcome to my personal website😊",
+    "desc": "## Hi, I'm Cimk3\n\nA tech‑enthusiast learner majoring in Computer Science and Technology. \n \n- I enjoy building some little side projects. \n- Constantly learning new knowledge and tech💻\n### Feel free to reach out. Let's grow together🫡"
+  }
 }

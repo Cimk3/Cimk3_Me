@@ -8,7 +8,7 @@
       <div class="profile">
         <el-avatar :size="96" :src="profile.avatar" />
         <h1>{{ profile.name }}</h1>
-        <p class="slogan">{{ profile.slogan }}</p>
+        <p class="slogan">{{ slogan }}</p>
         <div class="desc md-body" v-html="descHtml"></div>
       </div>
     </el-card>
@@ -19,12 +19,18 @@
 import { ref, computed, onMounted } from 'vue'
 import { marked } from 'marked'
 import { fetchJson } from '@/utils/content'
+import { useI18n } from 'vue-i18n'
 
+const { locale } = useI18n()
 const profile = ref({})
 const loading = ref(true)
 const error = ref('')
 
-const descHtml = computed(() => marked.parse(profile.value.desc || ''))
+const current = computed(() => profile.value[locale.value] || profile.value.zh || {})
+
+const slogan = computed(() => current.value.slogan || '')
+const descHtml = computed(() => marked.parse(current.value.desc || ''))
+
 
 onMounted(async () => {
   try {

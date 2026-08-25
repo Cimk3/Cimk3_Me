@@ -1,32 +1,67 @@
 [
-    {
-        "title": "我的GitHub仓库",
-        "description": "点击右上角的按钮可跳转我的仓库",
-        "tags": [],
-        "link": "https://github.com/Cimk3?tab=repositories"
+  {
+    "zh": {
+      "title": "墨记",
+      "description": "一款用AI做的安卓端的笔记和待办软件",
+      "tags": ["Kotlin", "JavaScript"]
     },
-    {
-        "title": "墨记",
-        "description": "一款安卓端的笔记和待办软件",
-        "tags": ["Kotlin","JavaScript"],
-        "link": "https://gitee.com/a2034379061/ink-notes"
+    "en": {
+      "title": "Moji-Notes",
+      "description": "An AI-assisted Android note & todo app",
+      "tags": ["Kotlin", "JavaScript"]
     },
-    {
-        "title": "Moji-Web",
-        "description": "墨记网页端",
-        "tags": ["Vue3","TypeScript","CSS"],
-        "link": "https://gitee.com/a2034379061/moji_-web"
+    "link": "https://gitee.com/a2034379061/ink-notes"
+  },
+  {
+    "zh": {
+      "title": "Moji-Web",
+      "description": "墨记网页端",
+      "tags": ["Vue3", "TypeScript", "CSS"]
     },
-    {
-        "title": "Qt-Pet",
-        "description": "一个简单的桌面宠物",
-        "tags": ["Qt","C++"],
-        "link": "https://github.com/Cimk3/Qt_Pet"
+    "en": {
+      "title": "Moji-Web",
+      "description": "Web client of InkNotes",
+      "tags": ["Vue3", "TypeScript", "CSS"]
     },
-    {
-        "title": "壮锦介绍网站Demo",
-        "description": "很久之前用AI写的一个html，介绍壮锦，等有兴趣了再重新做这个",
-        "tags": ["HTML","CSS","JavaScript"],
-        "link": "https://github.com/Cimk3/-html"
-    }
+    "link": "https://gitee.com/a2034379061/moji_-web"
+  },
+  {
+    "zh": {
+      "title": "Qt-Pet",
+      "description": "一个简单的桌面宠物",
+      "tags": ["Qt", "C++"]
+    },
+    "en": {
+      "title": "Qt-Pet",
+      "description": "A simple desktop pet",
+      "tags": ["Qt", "C++"]
+    },
+    "link": "https://github.com/Cimk3/Qt_Pet"
+  },
+  {
+    "zh": {
+      "title": "壮锦介绍网站Demo",
+      "description": "很久之前用AI写的一个html，介绍壮锦，等有兴趣了再重新做这个",
+      "tags": ["HTML", "CSS", "JavaScript"]
+    },
+    "en": {
+      "title": "Zhuang Brocade Intro Site Demo",
+      "description": "An HTML page about Zhuang brocade written with AI a while ago; will rebuild it when interested",
+      "tags": ["HTML", "CSS", "JavaScript"]
+    },
+    "link": "https://github.com/Cimk3/-html"
+  },
+  {
+    "zh": {
+      "title": "PlaneWar-Qt",
+      "description": "用Qt实现的一个简单的飞机大战小游戏",
+      "tags": ["Qt", "C++"]
+    },
+    "en": {
+      "title": "PlaneWar-Qt",
+      "description": "A simple airplane battle game implemented in Qt",
+      "tags": ["Qt", "C++"]
+    },
+    "link": "https://gitee.com/a2034379061/plane-war"
+  }
 ]

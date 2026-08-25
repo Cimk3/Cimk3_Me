@@ -22,7 +22,7 @@ const projects = [
     {
         title: '我的GitHub仓库',
         description: '点击右上角的按钮可跳转我的仓库',
-        tags: ['Vue3', 'ElementPlus'],
+        tags: [],
         link: 'https://github.com/Cimk3?tab=repositories',
     },
     // 后续项目继续往这里加

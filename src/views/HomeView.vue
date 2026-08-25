@@ -6,7 +6,7 @@
     <el-alert v-else-if="error" :title="error" type="error" show-icon :closable="false" />
     <el-card v-else class="profile-card">
       <div class="profile">
-        <el-avatar :size="96" :src="profile.avatar" />
+        <el-avatar :size="96" :src="avatarSrc" />
         <h1>{{ profile.name }}</h1>
         <p class="slogan">{{ profile.slogan }}</p>
         <div class="desc md-body" v-html="descHtml"></div>
@@ -26,9 +26,12 @@ const error = ref('')
 
 const descHtml = computed(() => marked.parse(profile.value.desc || ''))
 
+const base = process.env.BASE_URL || '/'
+const avatarSrc = computed(() => base + String(profile.value.avatar || '').replace(/^\//, ''))
+
 onMounted(async () => {
   try {
-    profile.value = await fetchJson('/data/profile.json')
+    profile.value = await fetchJson('data/profile.json')
   } catch (e) {
     error.value = e.message
   } finally {

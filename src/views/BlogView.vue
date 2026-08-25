@@ -51,7 +51,7 @@ const pagedPosts = computed(() => {
 
 onMounted(async () => {
   try {
-    posts.value = await fetchJson('/data/posts.json')
+    posts.value = await fetchJson('data/posts.json')
   } catch (e) {
     error.value = e.message
   } finally {

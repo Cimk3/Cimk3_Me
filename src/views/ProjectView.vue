@@ -50,7 +50,7 @@ const pagedProjects = computed(() => {
 
 onMounted(async () => {
   try {
-    projects.value = await fetchJson('/data/projects.json')
+    projects.value = await fetchJson('data/projects.json')
   } catch (e) {
     error.value = e.message
   } finally {

@@ -3,7 +3,7 @@
         <!-- 左侧导航栏 -->
         <aside class="sidebar">
             <div class="logo">
-                <img class="logo-avatar" src="/images/avatar.jpg" alt="avatar" />
+                <img class="logo-avatar" :src="avatarSrc" alt="avatar" />
             </div>
             <el-menu :default-active="activeMenu" class="sidebar-menu" router background-color="transparent">
                 <el-menu-item v-for="item in menus" :key="item.path" :index="item.path">
@@ -34,6 +34,9 @@ import { useRoute } from 'vue-router'
 import { computed, ref } from 'vue'
 
 const route = useRoute()
+
+const base = process.env.BASE_URL || '/'
+const avatarSrc = `${base}images/avatar.jpg`
 
 const menus = [
     {

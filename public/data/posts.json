@@ -4,6 +4,6 @@
     "title": "Hello",
     "date": "2026-08-25",
     "summary": "第一篇文章，简单打个招呼",
-    "md": "/blog/hello.md"
+    "md": "blog/hello.md"
   }
 ]

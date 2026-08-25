@@ -9,19 +9,22 @@
         <el-avatar :size="96" :src="profile.avatar" />
         <h1>{{ profile.name }}</h1>
         <p class="slogan">{{ profile.slogan }}</p>
-        <p class="desc">{{ profile.desc }}</p>
+        <div class="desc md-body" v-html="descHtml"></div>
       </div>
     </el-card>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { marked } from 'marked'
 import { fetchJson } from '@/utils/content'
 
 const profile = ref({})
 const loading = ref(true)
 const error = ref('')
+
+const descHtml = computed(() => marked.parse(profile.value.desc || ''))
 
 onMounted(async () => {
   try {
@@ -33,3 +36,21 @@ onMounted(async () => {
   }
 })
 </script>
+
+<style scoped>
+.profile {
+  text-align: center;
+}
+
+.slogan {
+  color: var(--text-secondary);
+  font-size: 16px;
+  margin: 8px 0 0;
+}
+
+.desc {
+  margin: 16px auto 0;
+  max-width: 520px;
+  text-align: left;
+}
+</style>

@@ -2,7 +2,9 @@
     <div class="layout">
         <!-- 左侧导航栏 -->
         <aside class="sidebar">
-            <div class="logo">Cimk3</div>
+            <div class="logo">
+                <img class="logo-avatar" src="/images/avatar.jpg" alt="avatar" />
+            </div>
             <el-menu :default-active="activeMenu" class="sidebar-menu" router background-color="transparent">
                 <el-menu-item v-for="item in menus" :key="item.path" :index="item.path">
                     <el-icon>
@@ -36,22 +38,22 @@ const route = useRoute()
 const menus = [
     {
         path: '/',
-        name: 'Home',
+        name: '主页Home',
         icon: 'HomeFilled'
     },
     {
         path: '/project',
-        name: 'Project',
+        name: '项目Project',
         icon: 'FolderOpened'
     },
     {
         path: '/blog',
-        name: 'Blog',
+        name: '文章Blog',
         icon: 'Notebook',
     },
     {
         path: '/connect',
-        name: 'Connect',
+        name: '联系我Contact',
         icon: 'ChatDotRound'
     }
 ]
@@ -71,3 +73,14 @@ const toggleTheme = () => {
   localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
 }
 </script>
+
+<style scoped>
+.logo-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border-color);
+  box-sizing: border-box;
+}
+</style>

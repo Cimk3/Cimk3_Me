@@ -5,14 +5,17 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import GithubIcon from './components/GithubIcon.vue'
 import './styles/index.css'
+import { Icon } from '@iconify/vue'
 
 const app = createApp(App)
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
-
+app.component('GithubIcon', GithubIcon)
+app.component('Icon', Icon)
 app.use(ElementPlus)
 app.use(router)
 app.mount('#app')

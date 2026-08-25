@@ -5,16 +5,18 @@
     </div>
     <el-alert v-else-if="error" :title="error" type="error" show-icon :closable="false" />
     <template v-else>
-      <div
-        v-for="c in contacts"
-        :key="c.label"
-        class="contact-item"
-        @click="handleContact(c)"
-      >
-        <el-icon :size="20"><component :is="c.icon" /></el-icon>
+      <div v-for="c in contacts" :key="c.label" class="contact-item" @click="handleContact(c)">
+        <el-icon :size="20">
+          <Icon :icon="c.icon" />
+        </el-icon>
         <span class="contact-label">{{ c.label }}</span>
-        <span class="contact-value">{{ c.value }}</span>
-        <el-icon v-if="c.copyable" :size="14" class="copy-icon"><CopyDocument /></el-icon>
+        <span v-if="!isLink(c)" class="contact-value">{{ c.value }}</span>
+        <el-icon v-if="c.copyable" :size="14" class="action-icon">
+          <CopyDocument />
+        </el-icon>
+        <el-icon v-else-if="isLink(c)" :size="16" class="action-icon">
+          <Icon icon="mdi:open-in-new" />
+        </el-icon>
       </div>
     </template>
   </div>
@@ -45,13 +47,17 @@ const handleContact = (item) => {
     return
   }
   navigator.clipboard.writeText(item.value)
-  ElMessage.success('邮箱已复制')
+  ElMessage.success('已复制')
 }
+
+const isLink = (item) => item.value.startsWith('http')
 </script>
 
 <style scoped>
 .connect {
   max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .contact-item {
@@ -59,14 +65,16 @@ const handleContact = (item) => {
   align-items: center;
   gap: 12px;
   padding: 18px 8px;
-  border-bottom: 1px solid var(--border-color); /* 用分隔线隔开每一项 */
+  border-bottom: 1px solid var(--border-color);
+  /* 用分隔线隔开每一项 */
   color: var(--text-color);
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
 .contact-item:last-child {
-  border-bottom: none; /* 最后一项不加分隔线 */
+  border-bottom: none;
+  /* 最后一项不加分隔线 */
 }
 
 .contact-item:hover {
@@ -82,7 +90,8 @@ const handleContact = (item) => {
   flex: 1;
 }
 
-.copy-icon {
+.action-icon {
+  margin-left: auto;
   color: var(--text-secondary);
 }
 </style>

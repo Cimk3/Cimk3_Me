@@ -3,7 +3,7 @@
     "slug": "hello",
     "title": "Hello",
     "date": "2026-08-25",
-    "summary": "文章摘要。",
+    "summary": "第一篇文章，简单打个招呼",
     "md": "/blog/hello.md"
   }
 ]

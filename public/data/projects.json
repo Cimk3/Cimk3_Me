@@ -16,5 +16,17 @@
         "description": "墨记网页端",
         "tags": ["Vue3","TypeScript","CSS"],
         "link": "https://gitee.com/a2034379061/moji_-web"
+    },
+    {
+        "title": "Qt-Pet",
+        "description": "一个简单的桌面宠物",
+        "tags": ["Qt","C++"],
+        "link": "https://github.com/Cimk3/Qt_Pet"
+    },
+    {
+        "title": "壮锦介绍网站Demo",
+        "description": "很久之前用AI写的一个html，介绍壮锦，等有兴趣了再重新做这个",
+        "tags": ["HTML","CSS","JavaScript"],
+        "link": "https://github.com/Cimk3/-html"
     }
 ]

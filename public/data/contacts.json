@@ -1,4 +1,7 @@
 [
-  { "label": "邮箱", "value": "a2034379061@163.com", "icon": "Message", "copyable": true },
-  { "label": "GitHub", "value": "https://github.com/Cimk3", "icon": "Link" }
+  {"label": "Email", "value": "a2034379061@163.com", "icon": "mdi:email-outline", "copyable": true },
+  {"label":"QQ","value":"2034379061","icon":"fa6-brands:qq","copyable":true},
+  {"label":"WeChat","value":"as2034379061","icon":"ant-design:wechat-filled","copyable":true},
+  {"label":"小红书","value":"https://www.xiaohongshu.com/user/profile/615d84aa000000000201f2a0" ,"icon":"thesvg-color:xiaohongshu" },
+  {"label": "GitHub", "value": "https://github.com/Cimk3", "icon": "mdi:github" }
 ]

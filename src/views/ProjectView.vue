@@ -1,44 +1,43 @@
 <template>
-    <div class="project">
-        <div v-for="p in projects" :key="p.title" class="project-card">
-            <div class="card-top">
-                <h3>{{ p.title }}</h3>
-                <a class="card-link" :href="p.link" target="_blank" rel="noopener" title="在浏览器中打开">
-                    <el-icon :size="18">
-                        <Monitor />
-                    </el-icon>
-                </a>
-            </div>
-            <p class="card-desc">{{ p.description }}</p>
-            <div class="card-tags">
-                <el-tag v-for="t in p.tags" :key="t" size="small" effect="light">{{ t }}</el-tag>
-            </div>
-        </div>
+  <div class="project">
+    <div v-if="loading" class="project-loading">
+      <el-skeleton :rows="4" animated />
     </div>
+    <el-alert v-else-if="error" :title="error" type="error" show-icon :closable="false" />
+    <template v-else>
+      <div v-for="p in projects" :key="p.title" class="project-card">
+        <div class="card-top">
+          <h3>{{ p.title }}</h3>
+          <a class="card-link" :href="p.link" target="_blank" rel="noopener" title="在浏览器中打开">
+            <el-icon :size="18"><Monitor /></el-icon>
+          </a>
+        </div>
+        <p class="card-desc">{{ p.description }}</p>
+        <div class="card-tags">
+          <el-tag v-for="t in p.tags" :key="t" size="small" effect="light">{{ t }}</el-tag>
+        </div>
+      </div>
+    </template>
+  </div>
 </template>
 
 <script setup>
-const projects = [
-    {
-        title: '我的GitHub仓库',
-        description: '点击右上角的按钮可跳转我的仓库',
-        tags: [],
-        link: 'https://github.com/Cimk3?tab=repositories',
-    },
-    // 后续项目继续往这里加
-    {
-        title: '墨记',
-        description: '一款安卓端的笔记和待办软件',
-        tags: ['Kotlin','JavaScript'],
-        link: 'https://gitee.com/a2034379061/ink-notes',
-    },
-    {
-        title: 'Moji-Web',
-        description: '墨记的网页端',
-        tags: ['Vue3','TypeScript','CSS'],
-        link: 'https://gitee.com/a2034379061/moji_-web',
-    }
-]
+import { ref, onMounted } from 'vue'
+import { fetchJson } from '@/utils/content'
+
+const projects = ref([])
+const loading = ref(true)
+const error = ref('')
+
+onMounted(async () => {
+  try {
+    projects.value = await fetchJson('/data/projects.json')
+  } catch (e) {
+    error.value = e.message
+  } finally {
+    loading.value = false
+  }
+})
 </script>
 
 <style scoped>

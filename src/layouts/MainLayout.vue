@@ -56,7 +56,9 @@ const menus = [
     }
 ]
 
-const activeMenu = computed(() => route.path)
+const activeMenu = computed(() =>
+  route.path.startsWith('/blog') ? '/blog' : route.path
+)
 
 const isDark = ref(localStorage.getItem('theme') === 'dark')
 const applyTheme = () => {

@@ -10,6 +10,8 @@
     --text-color: #303133;
     --text-secondary: #909399;
     --border-color: #e4e7ed;
+    --sidebar-overlay: rgba(255, 255, 255, 0.6);
+    --content-overlay: rgba(255, 255, 255, 0.75);
 }
 
 html.dark {
@@ -18,6 +20,8 @@ html.dark {
   --text-color: #e5eaf3;
   --text-secondary: #a3a6ad;
   --border-color: #3a3a3a;
+  --sidebar-overlay: rgba(0, 0, 0, 0.5);
+  --content-overlay: rgba(0, 0, 0, 0.55);
   color-scheme: dark; /* 让滚动条、输入控件等跟随暗色 */
 }
 

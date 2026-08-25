@@ -1,9 +1,9 @@
 <template>
     <div class="layout">
         <!-- 左侧导航栏 -->
-        <aside class="sidebar">
+        <aside class="sidebar" :class="{ 'has-bg': showBg }" :style="showBg ? sidebarBgStyle : ''">
             <div class="logo">
-                <img class="logo-avatar" src="/images/avatar.jpg" alt="avatar" />
+                <img class="logo-avatar" src="/images/LayoutHead.png" alt="avatar" />
             </div>
             <el-menu :default-active="activeMenu" class="sidebar-menu" router background-color="transparent">
                 <el-menu-item v-for="item in menus" :key="item.path" :index="item.path">
@@ -14,29 +14,37 @@
                 </el-menu-item>
             </el-menu>
             <div class="sidebar-footer">
-                <div class="music-control" :class="{ playing }" @click="togglePlay" title="BGM">
-                    <el-icon :size="20">
+                <div class="footer-btn music-control" :class="{ playing }" @click="togglePlay" title="BGM">
+                    <el-icon :size="18">
                         <Icon :icon="playing ? 'fluent:music-note-1-20-filled' : 'fluent:music-note-off-1-20-filled'" />
                     </el-icon>
                 </div>
-                <div class="music-next" @click="nextTrack" :title="t('tooltip.next')">
-                    <el-icon :size="20">
+                <div class="footer-btn music-next" @click="nextTrack" :title="t('tooltip.next')">
+                    <el-icon :size="18">
                         <Icon icon="fluent:arrow-next-20-filled" />
                     </el-icon>
                 </div>
-                <div class="theme-toggle" role="button" @click="toggleTheme" :title="t('tooltip.theme')">
-                    <el-icon :size="20">
+                <div class="footer-btn bg-toggle" :class="{ active: showBg }" @click="toggleBg" title="背景">
+                    <el-icon :size="18">
+                        <Icon icon="akar-icons:image" />
+                    </el-icon>
+                </div>
+                <div class="footer-btn theme-toggle" role="button" @click="toggleTheme" :title="t('tooltip.theme')">
+                    <el-icon :size="18">
                         <Moon v-if="isDark" />
                         <Sunny v-else />
                     </el-icon>
                 </div>
-                <div class="lang-toggle" @click="toggleLocale" :title="t('tooltip.lang')">
-                    <span class="lang-label">{{ locale === 'zh' ? '中' : 'EN' }}</span>
+                <div class="footer-btn lang-toggle" @click="toggleLocale" :title="t('tooltip.lang')">
+                    <el-icon :size="18">
+                        <Icon icon="mdi:translate" />
+                    </el-icon>
+                    <span class="lang-badge">{{ locale === 'zh' ? '中' : 'EN' }}</span>
                 </div>
             </div>
         </aside>
         <!-- 右侧内容 -->
-        <main class="content">
+        <main class="content" :style="showBg ? contentBgStyle : ''">
             <router-view />
         </main>
         <audio ref="audioEl" :src="currentSrc" preload="none" @play="playing = true" @pause="playing = false"
@@ -46,9 +54,10 @@
 
 <script setup>
 import { useRoute } from 'vue-router'
-import { computed, ref, watch, onMounted } from 'vue'
-import { fetchJson } from '@/utils/content'
+import { computed, ref ,watch, onMounted} from 'vue'
 import { useI18n } from 'vue-i18n'
+import { fetchJson } from '@/utils/content'
+import { showBg } from '@/store/ui'
 
 const { t, locale } = useI18n()
 const route = useRoute()
@@ -127,6 +136,26 @@ const toggleTheme = () => {
     applyTheme()
     localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
 }
+
+// 背景开关：主页卡片 mp4 背景 + 侧边栏背景图
+const toggleBg = () => {
+    showBg.value = !showBg.value
+}
+
+// 侧边栏背景图样式（内联样式，避免 css-loader 处理 url() 报错）
+const sidebarBgStyle = {
+    backgroundImage: 'url("/images/leftbgp.jpg")',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center'
+}
+
+// 右侧内容区背景图样式（内联样式 + 遮罩渐变，保证内容可读；避免 css-loader 处理 url() 报错）
+const contentBgStyle = {
+    backgroundImage:
+        'linear-gradient(var(--content-overlay), var(--content-overlay)), url("/images/rightbgp.jpg")',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center'
+}
 </script>
 
 <style scoped>
@@ -143,62 +172,72 @@ const toggleTheme = () => {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    padding: 12px 16px;
+    gap: 4px;
+    padding: 12px 8px;
 }
 
-.music-control {
+/* 统一的底部按钮样式 */
+.footer-btn {
+    position: relative;
+    width: 34px;
+    height: 34px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 8px;
+    border-radius: 8px;
     cursor: pointer;
-    color: var(--text-color);
-    transition: color 0.2s;
+    color: var(--text-secondary);
+    transition: color 0.2s, background-color 0.2s;
 }
 
-.music-control:hover {
+.footer-btn:hover {
     color: var(--el-color-primary);
+    background-color: var(--bg-color);
 }
 
+.footer-btn.active,
 .music-control.playing {
     color: var(--el-color-primary);
 }
 
-.music-next {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px;
-    cursor: pointer;
-    color: var(--text-color);
-    transition: color 0.2s;
-}
-
-.music-next:hover {
+/* 语言按钮右下角的小角标（中/EN） */
+.lang-badge {
+    position: absolute;
+    right: 1px;
+    bottom: 1px;
+    font-size: 9px;
+    line-height: 1;
+    font-weight: 600;
     color: var(--el-color-primary);
+    user-select: none;
+    pointer-events: none;
 }
 
+/* 覆盖全局 .theme-toggle 的内边距，保持按钮尺寸统一 */
 .theme-toggle {
-    padding: 8px;
+    padding: 0;
     gap: 0;
+    font-size: inherit;
 }
 
-.lang-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 28px;
-  padding: 8px;
-  cursor: pointer;
-  color: var(--text-color);
-  font-size: 14px;
-  font-weight: 600;
-  user-select: none;
-  transition: color 0.2s;
+/* 背景开启时：半透明遮罩提升可读性，内容置于遮罩之上 */
+.sidebar.has-bg {
+  position: relative;
 }
 
-.lang-toggle:hover {
-  color: var(--el-color-primary);
+.sidebar.has-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--sidebar-overlay);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sidebar.has-bg .logo,
+.sidebar.has-bg .sidebar-menu,
+.sidebar.has-bg .sidebar-footer {
+  position: relative;
+  z-index: 1;
 }
 </style>

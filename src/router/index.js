@@ -36,6 +36,24 @@ const routes = [
         meta: { title: 'Inspiration' }
       },
       {
+        path: 'works',
+        name: 'works',
+        component: () => import('../views/WorksView.vue'),
+        meta: { title: 'Works' }
+      },
+      {
+        path: 'works/:novelId',
+        name: 'novel',
+        component: () => import('../views/NovelView.vue'),
+        meta: { title: 'Works' }
+      },
+      {
+        path: 'works/:novelId/:chapterId',
+        name: 'chapter',
+        component: () => import('../views/ChapterView.vue'),
+        meta: { title: 'Works' }
+      },
+      {
         path: 'connect',
         name: 'connect',
         component: () => import('../views/ConnectView.vue'),

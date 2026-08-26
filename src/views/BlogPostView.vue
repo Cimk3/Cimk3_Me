@@ -1,5 +1,10 @@
 <template>
   <div class="blog-post">
+    <router-link to="/blog" class="back-btn">
+      <el-icon :size="16"><Icon icon="mdi:arrow-left" /></el-icon>
+      <span>{{ t('msg.back') }}</span>
+    </router-link>
+
     <div v-if="loading" class="blog-post-loading">
       <el-skeleton :rows="6" animated />
     </div>
@@ -16,9 +21,11 @@
 <script setup>
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { marked } from 'marked'
 import { fetchJson, fetchText } from '@/utils/content'
 
+const { t } = useI18n()
 const route = useRoute()
 const post = ref(null)
 const html = ref('')
@@ -48,6 +55,24 @@ load()
 <style scoped>
 .blog-post {
   max-width: 800px;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 16px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.back-btn:hover {
+  color: var(--el-color-primary);
+  background-color: var(--bg-color);
 }
 
 .post-title {

@@ -2,15 +2,22 @@
   {
     "slug": "hello",
     "title": "Hello",
-    "date": "2026-08-25",
+    "date": "2026-08-25 14:10",
     "summary": "第一篇文章，简单打个招呼",
     "md": "/blog/hello.md"
   },
   {
     "slug":"recommend",
     "title":"强烈推荐一部剧#1",
-    "date":"2026-08-25",
+    "date":"2026-08-25 22:15",
     "summary":"推荐《福尔摩斯探案集》",
     "md":"/blog/recommend.md"
+  },
+  {
+    "slug":"firstWork",
+    "title":"我的第一本作品上线网站了",
+    "date":"2026-08-26 21:28",
+    "summary":"第一本作品《如念》已经上线，快去作品集看看吧",
+    "md":"/blog/作品上线.md"
   }
 ]

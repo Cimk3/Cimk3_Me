@@ -2,14 +2,14 @@ import { createI18n } from 'vue-i18n'
 
 const messages = {
   zh: {
-    menu: { home: '主页', project: '项目', blog: '文章', inspiration: '灵感', connect: '联系我' },
-    tooltip: { next: '下一首', theme: '切换主题', lang: '切换语言' },
-    msg: { copied: '已复制', notFound: '文章不存在', open: '在浏览器中打开' }
+    menu: { home: '主页', project: '项目', blog: '文章', inspiration: '灵感', works: '作品集', connect: '联系我' },
+    tooltip: { next: '下一首', theme: '切换主题', lang: '切换语言',background:'背景' },
+    msg: { copied: '已复制', notFound: '文章不存在', open: '在浏览器中打开', back: '返回' }
   },
   en: {
-    menu: { home: 'Home', project: 'Projects', blog: 'Blog', inspiration: 'Inspiration', connect: 'Contact' },
-    tooltip: { next: 'Next', theme: 'Toggle theme', lang: 'Switch language' },
-    msg: { copied: 'Copied', notFound: 'Post not found', open: 'Open in browser' }
+    menu: { home: 'Home', project: 'Projects', blog: 'Blog', inspiration: 'Inspiration', works: 'Works', connect: 'Contact' },
+    tooltip: { next: 'Next', theme: 'Toggle theme', lang: 'Switch language',background:'Background' },
+    msg: { copied: 'Copied', notFound: 'Post not found', open: 'Open in browser', back: 'Back' }
   }
 }
 

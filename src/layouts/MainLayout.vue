@@ -32,7 +32,7 @@
                         <Icon icon="fluent:arrow-next-20-filled" />
                     </el-icon>
                 </div>
-                <div class="footer-btn bg-toggle" :class="{ active: showBg }" @click="toggleBg" title="背景">
+                <div class="footer-btn bg-toggle" :class="{ active: showBg }" @click="toggleBg" :title="t('tooltip.background')">
                     <el-icon :size="18">
                         <Icon icon="akar-icons:image" />
                     </el-icon>
@@ -121,10 +121,11 @@ watch(currentSrc, () => {
 // ===== BGM 播放逻辑结束 =====
 
 const menus = computed(() => [
-    { path: '/', name: t('menu.home'), icon: 'House' },
+    { path: '/', name: t('menu.home'), icon: 'HomeFilled' },
     { path: '/project', name: t('menu.project'), icon: 'FolderOpened' },
     { path: '/blog', name: t('menu.blog'), icon: 'Notebook' },
     { path: '/inspiration', name: t('menu.inspiration'), icon: 'Star' },
+    { path: '/works', name: t('menu.works'), icon: 'Reading' },
     { path: '/connect', name: t('menu.connect'), icon: 'ChatDotRound' }
 ])
 
@@ -134,9 +135,11 @@ const toggleLocale = () => {
     localStorage.setItem('locale', locale.value)
 }
 
-const activeMenu = computed(() =>
-    route.path.startsWith('/blog') ? '/blog' : route.path
-)
+const activeMenu = computed(() => {
+    if (route.path.startsWith('/blog')) return '/blog'
+    if (route.path.startsWith('/works')) return '/works'
+    return route.path
+})
 
 // 移动端菜单开关，切换路由后自动收起
 const menuOpen = ref(false)

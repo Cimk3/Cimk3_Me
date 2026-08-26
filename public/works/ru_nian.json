@@ -1,0 +1,10 @@
+{
+  "id": "ru_nian",
+  "title": "如念",
+  "cover": "images/works/ru_nian_cv.png",
+  "description": "作品的一个前瞻，也算是特别篇",
+  "chapters": [
+    { "id": "ru_nian-ch1", "title": "第一章 思念" },
+    { "id": "ru_nian-ch2", "title": "第二章 重逢" }
+  ]
+}

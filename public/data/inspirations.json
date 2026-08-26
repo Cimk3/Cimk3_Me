@@ -4,13 +4,20 @@
     "image": "images/inspiration/1.jpg",
     "title": "打算做个资源分享页",
     "time": "2026-08-25",
-    "content": "一直都想做个学习、游戏资源的分享网站。等有空了而且在Deepseek空闲时段让ds把这个做了吧"
+    "md": "inspirations/1.md"
   },
   {
     "id": 2,
     "image": "images/inspiration/2.jpg",
     "title": "想写一个修仙小说",
     "time": "2026-08-25",
-    "content": "如果写了就在这个网站上开个新的作品页，把每一章推送上来，不过不敢保证这个想法可以实现"
+    "md": "inspirations/2.md"
+  },
+  {
+    "id": 3,
+    "image": "images/inspiration/3.jpg",
+    "title": "资源分享页想法",
+    "time": "2026-08-26",
+    "md": "inspirations/3.md"
   }
 ]

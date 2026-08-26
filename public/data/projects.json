@@ -1,16 +1,29 @@
 [
   {
     "zh": {
-      "title": "墨记",
+      "title": "墨记 Gitee仓库",
       "description": "一款用AI做的安卓端的笔记和待办软件",
       "tags": ["Kotlin", "JavaScript"]
     },
     "en": {
-      "title": "Moji-Notes",
+      "title": "Moji-Notes Gitee Repository",
       "description": "An AI-assisted Android note & todo app",
       "tags": ["Kotlin", "JavaScript"]
     },
     "link": "https://gitee.com/a2034379061/ink-notes"
+  },
+  {
+      "zh": {
+      "title": "墨记",
+      "description": "一款用AI做的安卓端的笔记和待办软件，官网链接",
+      "tags": ["Kotlin", "JavaScript","Vue3"]
+    },
+    "en": {
+      "title": "Moji-Notes Download Website",
+      "description": "An AI-assisted Android note & todo app, Download Website Page",
+      "tags": ["Kotlin", "JavaScript","Vue3"]
+    },
+    "link": "https://moji-intro-website.a2034379061.workers.dev/#/"
   },
   {
     "zh": {

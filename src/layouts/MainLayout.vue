@@ -45,15 +45,18 @@
                 </div>
                 <div class="footer-btn lang-toggle" @click="toggleLocale" :title="t('tooltip.lang')">
                     <el-icon :size="18">
-                        <Icon icon="mdi:translate" />
+                        <Icon :icon="locale === 'zh' ? 'icon-park-outline:english' : 'icon-park-outline:chinese'" />
                     </el-icon>
-                    <span class="lang-badge">{{ locale === 'zh' ? '中' : 'EN' }}</span>
                 </div>
             </div>
         </aside>
         <!-- 右侧内容 -->
         <main class="content" :style="showBg ? contentBgStyle : ''">
-            <router-view />
+            <router-view v-slot="{ Component }">
+                <transition name="fade-slide" mode="out-in">
+                    <component :is="Component" :key="$route.path" />
+                </transition>
+            </router-view>
         </main>
         <audio ref="audioEl" :src="currentSrc" preload="none" @play="playing = true" @pause="playing = false"
             @ended="nextTrack"></audio>
@@ -215,19 +218,6 @@ const contentBgStyle = {
     color: var(--el-color-primary);
 }
 
-/* 语言按钮右下角的小角标（中/EN） */
-.lang-badge {
-    position: absolute;
-    right: 1px;
-    bottom: 1px;
-    font-size: 9px;
-    line-height: 1;
-    font-weight: 600;
-    color: var(--el-color-primary);
-    user-select: none;
-    pointer-events: none;
-}
-
 /* 覆盖全局 .theme-toggle 的内边距，保持按钮尺寸统一 */
 .theme-toggle {
     padding: 0;
@@ -309,5 +299,23 @@ const contentBgStyle = {
     .content {
         padding: 56px 12px 12px;
     }
+}
+</style>
+
+<!-- 页面切换过渡（作用于路由页面根元素，需非 scoped） -->
+<style>
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 </style>

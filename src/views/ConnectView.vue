@@ -25,7 +25,10 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 import { fetchJson } from '@/utils/content'
+
+const { t } = useI18n()
 
 const contacts = ref([])
 const loading = ref(true)
@@ -47,7 +50,7 @@ const handleContact = (item) => {
     return
   }
   navigator.clipboard.writeText(item.value)
-  ElMessage.success('已复制')
+  ElMessage.success(t('msg.copied'))
 }
 
 const isLink = (item) => item.value.startsWith('http')

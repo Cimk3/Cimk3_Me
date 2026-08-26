@@ -9,9 +9,9 @@
         <div v-for="p in pagedProjects" :key="p.link || projectFor(p).title" class="project-card">
           <div class="card-top">
             <h3>{{ projectFor(p).title }}</h3>
-            <a class="card-link" :href="p.link" target="_blank" rel="noopener" :title="t('msg.open')">
+            <a class="card-link" :href="p.link" target="_blank" rel="noopener" :title="p.link">
               <el-icon :size="20">
-                <Monitor />
+                <Icon icon="ant-design:link-outlined" />
               </el-icon>
             </a>
           </div>

@@ -38,7 +38,11 @@
         <div class="dialog-text">
           <h2 class="dialog-title">{{ selected.title }}</h2>
           <p class="dialog-time">{{ selected.time }}</p>
-          <div class="dialog-content">{{ selected.content }}</div>
+          <div v-if="contentLoading" class="dialog-content">
+            <el-skeleton :rows="4" animated />
+          </div>
+          <el-alert v-else-if="contentError" :title="contentError" type="error" show-icon :closable="false" />
+          <div v-else class="dialog-content md-body" v-html="contentHtml"></div>
         </div>
       </div>
     </el-dialog>
@@ -47,13 +51,17 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { fetchJson } from '@/utils/content'
+import { marked } from 'marked'
+import { fetchJson, fetchText } from '@/utils/content'
 
 const inspirations = ref([])
 const loading = ref(true)
 const error = ref('')
 const dialogVisible = ref(false)
 const selected = ref(null)
+const contentHtml = ref('')
+const contentLoading = ref(false)
+const contentError = ref('')
 
 onMounted(async () => {
   try {
@@ -65,9 +73,20 @@ onMounted(async () => {
   }
 })
 
-const openDialog = (item) => {
+const openDialog = async (item) => {
   selected.value = item
   dialogVisible.value = true
+  contentHtml.value = ''
+  contentError.value = ''
+  contentLoading.value = true
+  try {
+    const md = await fetchText(item.md)
+    contentHtml.value = marked.parse(md)
+  } catch (e) {
+    contentError.value = e.message
+  } finally {
+    contentLoading.value = false
+  }
 }
 </script>
 
@@ -178,7 +197,6 @@ const openDialog = (item) => {
   font-size: 15px;
   line-height: 1.8;
   color: var(--text-color);
-  white-space: pre-line;
 }
 
 @media (max-width: 640px) {

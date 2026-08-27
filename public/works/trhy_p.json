@@ -1,0 +1,13 @@
+{
+  "id": "trhy_p",
+  "title": "天人合一·前传",
+  "cover": "images/works/trhy_p_cv.png",
+  "description": "作品的一个前瞻，也算是特别篇",
+  "chapters": [
+    { "id": "0-1", "title": "角色图相关" },
+    { "id": "0-2", "title": "境界设定"},
+    { "id": "1" , "title": "第一章 大灾"},
+    { "id": "2" , "title": "第二章 灭族"},
+    { "id": "3" , "title": "第三章 最后的希望"}
+  ]
+}

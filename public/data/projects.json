@@ -76,5 +76,18 @@
       "tags": ["Qt", "C++"]
     },
     "link": "https://gitee.com/a2034379061/plane-war"
+  },
+  {
+    "zh":{
+      "title":"方寸食光-MCPE",
+      "description":"我的世界基岩版物品Addon模组",
+      "tags":["TypeScript"]
+    },
+    "en":{
+      "title":"A Bite of Food - MCPE",
+      "description":"A Addon mod of Minecraft Bedrock",
+      "tags":["TypeScript"]
+    },
+    "link":"https://www.mcpefcsg.top/#/"
   }
 ]

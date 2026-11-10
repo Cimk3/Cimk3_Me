@@ -1,0 +1,63 @@
+{
+  "featured": [
+    {
+      "kind": "project",
+      "refId": "ink-notes",
+      "reason": "从随手记到待办，看看一个本地笔记应用怎样组织日常记录。",
+      "en": {
+        "reason": "See how a local notes app organizes quick ideas and everyday tasks."
+      }
+    },
+    {
+      "kind": "post",
+      "refId": "hello",
+      "reason": "第一次来，可以从这篇网站介绍开始。",
+      "en": {
+        "reason": "New here? Start with a short introduction to the site."
+      }
+    },
+    {
+      "kind": "work",
+      "refId": "trhy_p",
+      "reason": "从三个孩子的命运展开，进入这个修仙故事的世界。",
+      "en": {
+        "reason": "Enter a cultivation story through the fate of three children."
+      }
+    }
+  ],
+  "updates": [
+    {
+      "id": "homepage-reading",
+      "date": "2026-11-10",
+      "title": "整理主页的浏览入口",
+      "description": "把推荐内容和最近在做的事放到首页，第一次来更容易找到方向。",
+      "to": "/",
+      "en": {
+        "title": "Making the homepage easier to explore",
+        "description": "Bringing recommendations and recent work together for a clearer starting point."
+      }
+    },
+    {
+      "id": "project-cases",
+      "date": "2026-11-10",
+      "title": "补充项目里的使用场景",
+      "description": "从墨记、Moji-Web 和方寸食光开始，简短记录需求、用法与更新中的取舍。",
+      "to": "/project",
+      "en": {
+        "title": "Adding context to project introductions",
+        "description": "Brief notes on the needs, uses, and tradeoffs behind Moji-Notes, Moji-Web, and Food & Table."
+      }
+    },
+    {
+      "id": "reading-guides",
+      "date": "2026-11-10",
+      "title": "给小说补上阅读说明",
+      "description": "整理《如念》和《天人合一·前传》的关系，说明正文与设定的阅读顺序。",
+      "to": "/works",
+      "en": {
+        "title": "Adding reading guides to the stories",
+        "description": "Explaining how the two works connect and where to start with story chapters and worldbuilding."
+      }
+    }
+  ]
+}

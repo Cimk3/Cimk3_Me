@@ -1,46 +1,46 @@
 [
   {
     "slug": "hello",
-    "title": "Hello",
+    "title": "关于这个网站：记录项目，也写故事",
     "date": "2026-08-25T14:10:00+08:00",
-    "summary": "第一篇文章，简单打个招呼",
+    "summary": "从个人项目到小说创作，介绍这个网站现在可以读到什么，以及适合从哪里开始。",
     "md": "/blog/hello.md",
     "en": {
-      "title": "Hello",
-      "summary": "A short introduction and greeting."
+      "title": "About This Site: Projects and Stories",
+      "summary": "An introduction to the projects, writing, and places to start on this site."
     }
   },
   {
     "slug": "recommend",
-    "title": "强烈推荐一部剧#1",
+    "title": "剧集推荐：《福尔摩斯探案集》的布雷特版",
     "date": "2026-08-25T22:15:00+08:00",
-    "summary": "推荐《福尔摩斯探案集》",
+    "summary": "从人物气质、故事和时代氛围，聊聊这版福尔摩斯为什么让我印象深刻。",
     "md": "/blog/recommend.md",
     "en": {
-      "title": "A TV Recommendation #1",
-      "summary": "Recommending The Adventures of Sherlock Holmes."
+      "title": "A TV Recommendation: Jeremy Brett’s Sherlock Holmes",
+      "summary": "What makes this portrayal of Holmes, its stories, and its period atmosphere memorable to me."
     }
   },
   {
     "slug": "firstWork",
-    "title": "我的第一本作品上线网站了",
+    "title": "《如念》上线：故事之外的一次重逢",
     "date": "2026-08-26T21:28:00+08:00",
-    "summary": "第一本作品《如念》已经上线，快去作品集看看吧",
+    "summary": "以思念与重逢展开的特别篇；想了解它与正篇的关系，可以先看作品页的阅读说明。",
     "md": "/blog/作品上线.md",
     "en": {
-      "title": "My First Work Is Now Online",
-      "summary": "Ru Nian is now available in Works."
+      "title": "Ru Nian: Longing and Reunion",
+      "summary": "A special episode about longing and reunion. The work page explains its relationship to the main story."
     }
   },
   {
     "slug": "trhy_p_start",
-    "title": "正篇上线",
+    "title": "《天人合一·前传》上线与设定调整",
     "date": "2026-08-27T22:56:00+08:00",
-    "summary": "如念的正篇已经上线了，标题暂时定的以后可能会改",
+    "summary": "从章节拆分到境界设定，记录这部修仙故事开始在个人网站连载时的想法。",
     "md": "/blog/正篇上线.md",
     "en": {
-      "title": "The Main Story Is Now Online",
-      "summary": "The main story is now available, with a working title that may change."
+      "title": "Heaven and Humanity as One: Launch and Worldbuilding",
+      "summary": "Thoughts on splitting chapters and revising cultivation realms when the story first appeared on this site."
     }
   }
 ]

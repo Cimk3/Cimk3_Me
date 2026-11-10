@@ -9,18 +9,33 @@
       "title": "第一章 思念",
       "en": {
         "title": "Chapter 1: Longing"
-      }
+      },
+      "kind": "story"
     },
     {
       "id": "ru_nian-ch2",
       "title": "第二章 重逢",
       "en": {
         "title": "Chapter 2: Reunion"
-      }
+      },
+      "kind": "story"
     }
   ],
   "en": {
     "title": "Ru Nian",
     "description": "A preview of the story, also serving as a special episode."
+  },
+  "readingGuide": {
+    "genre": "修仙 · 情感 · 特别篇",
+    "relation": "《如念》是同一故事的特别篇，围绕池玉婉与叶天丘的思念和重逢展开；《天人合一·前传》从更早的事件讲起。",
+    "order": "想按故事发生的先后了解人物，可以先读《天人合一·前传》；也可以独立阅读《如念》，先感受人物之间的情感。",
+    "startChapter": "ru_nian-ch1",
+    "relatedWorkId": "trhy_p",
+    "updated": "2026-11-10",
+    "en": {
+      "genre": "Cultivation · Relationships · Special Episode",
+      "relation": "Ru Nian is a special episode in the same story, following Chi Yuwan and Ye Tianqiu through longing and reunion. The prequel begins with earlier events.",
+      "order": "For the earlier events, start with the prequel. Ru Nian can also be read independently as an introduction to the characters’ relationships."
+    }
   }
 }

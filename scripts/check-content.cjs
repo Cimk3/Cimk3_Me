@@ -56,7 +56,7 @@ async function validateContent(projectRoot) {
     try { documents.set(source, JSON.parse(await fs.readFile(file, 'utf8'))) }
     catch (error) { report(source, `JSON 格式错误: ${error.message}`) }
   }
-  const required = ['profile', 'projects', 'posts', 'inspirations', 'works', 'contacts', 'music']
+  const required = ['profile', 'home', 'projects', 'posts', 'inspirations', 'works', 'contacts', 'music']
   for (const name of required) {
     const source = `data/${name}.json`
     if (!documents.has(source) && !publicFiles.includes(path.join(publicRoot, source))) report(source, '缺少内容清单')
@@ -67,6 +67,31 @@ async function validateContent(projectRoot) {
       requireText(data.name, `${source}.name`)
       bilingual(data, ['slogan', 'desc'], source, true)
       resource(data.avatar, `${source}.avatar`)
+    } else if (source === 'data/home.json') {
+      if (!object(data)) { report(source, '首页配置必须为对象'); continue }
+      if (!Array.isArray(data.featured) || !Array.isArray(data.updates)) { report(source, '首页需要 featured 与 updates 数组'); continue }
+      unique(data.featured, 'kind', `${source}.featured`)
+      unique(data.updates, 'id', `${source}.updates`)
+      for (const [index, entry] of data.featured.entries()) {
+        if (!object(entry)) continue
+        const at = `${source}.featured[${index}]`
+        bilingual(entry, ['reason'], at)
+        const lookup = { project: ['projects', 'id'], post: ['posts', 'slug'], work: ['works', 'id'] }[entry.kind]
+        const records = lookup && documents.get(`data/${lookup[0]}.json`)
+        if (!lookup || !Array.isArray(records) || !records.some(item => item?.[lookup[1]] === entry.refId)) report(at, `推荐入口不存在: ${entry.kind}/${entry.refId}`)
+      }
+      const routes = new Set(['/', '/project', '/blog', '/inspiration', '/works', '/connect'])
+      const posts = documents.get('data/posts.json')
+      const works = documents.get('data/works.json')
+      if (Array.isArray(posts)) posts.forEach(post => { if (post?.slug) routes.add(`/blog/${post.slug}`) })
+      if (Array.isArray(works)) works.forEach(work => { if (work?.id) routes.add(`/works/${work.id}`) })
+      for (const [index, entry] of data.updates.entries()) {
+        if (!object(entry)) continue
+        const at = `${source}.updates[${index}]`
+        bilingual(entry, ['title', 'description'], at)
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(entry.date) || !Number.isFinite(dateValue(entry.date))) report(at, '无效近况日期')
+        if (!routes.has(entry.to)) report(at, `近况入口不存在: ${entry.to}`)
+      }
     } else if (source.startsWith('data/')) {
       if (!Array.isArray(data)) { report(source, '内容清单必须为数组'); continue }
       const name = path.basename(source, '.json')
@@ -83,9 +108,14 @@ async function validateContent(projectRoot) {
             }
           }
           if (item.zh?.approach || item.en?.approach) bilingual(item, ['approach'], at, true)
+          if (item.zh?.caseStudy || item.en?.caseStudy) {
+            for (const language of ['zh', 'en']) {
+              for (const field of ['scenario', 'experience', 'tradeoff']) requireText(item[language]?.caseStudy?.[field], `${at}.${language}.caseStudy.${field}`)
+            }
+          }
           if (!Array.isArray(item.links) || !item.links.length) report(`${at}.links`, '缺少项目入口')
           else for (const link of item.links) {
-            if (!object(link) || !['source', 'website', 'demo'].includes(link.kind)) report(`${at}.links`, '无效入口类型')
+            if (!object(link) || !['source', 'website', 'demo', 'updates'].includes(link.kind)) report(`${at}.links`, '无效入口类型')
             try { const url = new URL(link?.href); if (!['https:', 'http:'].includes(url.protocol)) throw new Error() } catch { report(`${at}.links`, '入口必须为 HTTP/HTTPS 网址') }
           }
         }
@@ -127,8 +157,17 @@ async function validateContent(projectRoot) {
       data.chapters.forEach((chapter, index) => {
         if (!object(chapter)) return
         bilingual(chapter, ['title'], `${source}.chapters[${index}]`)
+        if (chapter.kind && !['story', 'reference'].includes(chapter.kind)) report(`${source}.chapters[${index}]`, '无效章节类型')
         resource(`/chapters/${data.id}/${chapter.id}.md`, `${source}.chapters[${index}]`)
       })
+      if (data.readingGuide) {
+        const guide = data.readingGuide
+        const at = `${source}.readingGuide`
+        bilingual(guide, ['genre', 'relation', 'order'], at)
+        if (!data.chapters.some(chapter => chapter?.id === guide.startChapter && chapter.kind !== 'reference')) report(at, '正文入口章节不存在')
+        if (guide.relatedWorkId === data.id || !documents.has(`works/${guide.relatedWorkId}.json`)) report(at, '关联作品不存在或指向自身')
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(guide.updated) || !Number.isFinite(dateValue(guide.updated))) report(at, '无效阅读说明日期')
+      }
     }
   }
   // Check all Markdown, including currently unlisted drafts, without network access.

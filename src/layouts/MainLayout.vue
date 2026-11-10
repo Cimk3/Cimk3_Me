@@ -43,7 +43,7 @@
             </div>
         </aside>
         <!-- 右侧内容 -->
-        <main class="content" :style="showBg ? contentBgStyle : ''">
+        <main ref="contentEl" class="content" :style="showBg ? contentBgStyle : ''">
             <router-view v-slot="{ Component }">
                 <transition name="fade-slide" mode="out-in">
                     <component :is="Component" :key="$route.path" />
@@ -66,6 +66,7 @@ import { showBg } from '@/store/ui'
 const { t, locale } = useI18n()
 const route = useRoute()
 const audioEl = ref(null)
+const contentEl = ref(null)
 const { playing, playPending, currentSrc, togglePlay, nextTrack, onAudioError } = useMusic(audioEl)
 function saveSetting(key, value) {
     try { localStorage.setItem(key, value) } catch { ElMessage.warning(t('msg.saveFailed')) }
@@ -96,6 +97,7 @@ const activeMenu = computed(() => {
 const menuOpen = ref(false)
 watch(() => route.path, () => {
     menuOpen.value = false
+    if (contentEl.value) contentEl.value.scrollTop = 0
 })
 
 let savedTheme

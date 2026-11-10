@@ -15,6 +15,15 @@
           </div>
           <p v-if="projectFor(project).approach" class="project-approach"><strong>{{ t('project.approach') }}:</strong> {{ projectFor(project).approach }}</p>
           <div class="card-tags"><el-tag v-for="tag in projectFor(project).tags" :key="tag" size="small" effect="light">{{ tag }}</el-tag></div>
+          <details v-if="projectFor(project).caseStudy" class="project-case">
+            <summary>{{ t('project.caseStudy') }}</summary>
+            <dl>
+              <template v-for="field in ['scenario', 'experience', 'tradeoff']" :key="field">
+                <dt>{{ t(`project.${field}`) }}</dt>
+                <dd>{{ projectFor(project).caseStudy[field] }}</dd>
+              </template>
+            </dl>
+          </details>
           <div class="project-links">
             <a v-for="link in project.links" :key="link.href" :href="link.href" target="_blank" rel="noopener noreferrer" class="project-link">
               {{ t(`project.${link.kind}`) }}<el-icon :size="16"><Icon icon="ant-design:link-outlined" /></el-icon>
@@ -124,5 +133,11 @@ const pagedProjects = computed(() => projects.value.slice((currentPage.value - 1
 .project-links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
 .project-link { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 12px; color: var(--text-color); text-decoration: none; font-size: 14px; }
 .project-link:hover { color: var(--el-color-primary); border-color: var(--el-color-primary); }
+.project-case { margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 16px; color: var(--text-color); }
+.project-case summary { cursor: pointer; font-size: 15px; font-weight: 600; }
+.project-case summary:focus-visible { outline: 2px solid var(--el-color-primary); outline-offset: 4px; }
+.project-case dl { margin-top: 16px; font-size: 14px; line-height: 1.8; }
+.project-case dt { font-weight: 600; margin-top: 12px; }
+.project-case dd { color: var(--text-secondary); margin-top: 4px; }
 @media (max-width: 640px) { .project-card { padding: 22px 20px; } }
 </style>

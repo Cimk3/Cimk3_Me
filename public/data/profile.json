@@ -2,11 +2,11 @@
   "name": "Cimk3",
   "avatar": "/images/avatar.jpg",
   "zh": {
-    "slogan": "欢迎来到我的主页😊",
-    "desc": "# 你好，我是 Cimk3\n \n一个热爱技术的学习者，现就读计算机科学与技术专业。\n \n- 喜欢做些小东西 \n- 也喜欢写小说🖋️ \n- 不断学习知识和技术中💻\n### 欢迎交流、共同成长🫡"
+    "slogan": "做些小东西，也写些故事。",
+    "desc": "计算机科学与技术专业在读，喜欢做小工具，也喜欢写小说。\n\n这里放着我的项目、故事和还没展开的念头。挑一个感兴趣的入口，欢迎慢慢逛。"
   },
   "en": {
-    "slogan": "Welcome to my personal website😊",
-    "desc": "## Hi, I'm Cimk3\n\nA technology enthusiast studying Computer Science and Technology.\n\n- I enjoy building small projects.\n- I also enjoy writing fiction.\n- I keep learning new ideas and technologies.\n\n### Feel free to get in touch. Let's learn together."
+    "slogan": "Small projects, stories, and ideas.",
+    "desc": "A Computer Science and Technology student who enjoys building small tools and writing fiction.\n\nThis is a home for my projects, stories, and ideas still taking shape. Choose something that interests you and take a look around."
   }
 }

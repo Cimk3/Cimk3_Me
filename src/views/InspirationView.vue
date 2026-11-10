@@ -83,157 +83,32 @@ function openDialog(item) {
 </script>
 
 <style scoped>
-.inspiration-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 20px;
-}
-
-.inspiration-card {
-  font: inherit;
-  text-align: left;
-  background: var(--content-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-}
-
-.inspiration-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--el-color-primary);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-}
-
-.card-image {
-  display: block;
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-}
-
-.card-footer {
-  padding: 12px 16px;
-}
-
-.card-title {
-  color: var(--text-color);
-  font-size: 15px;
-  font-weight: 600;
-}
-
-/* ===== 模态框 ===== */
-.dialog-body {
-  position: relative;
-  height: 520px; /* 固定高度，不随图片大小调整 */
-}
-
-.dialog-close {
-  border: 0;
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 10;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.35);
-  color: #fff;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.dialog-close:hover {
-  background: rgba(0, 0, 0, 0.6);
-}
-
-.dialog-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 60%;
-}
-
-.dialog-image img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.dialog-text {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 60%;
-  padding: 28px 24px;
-  overflow-y: auto;
-}
-
-.dialog-title {
-  margin: 0 0 8px;
-  font-size: 22px;
-  color: var(--text-color);
-}
-
-.dialog-time {
-  margin: 0 0 16px;
-  font-size: 13px;
-  color: var(--text-secondary);
-}
-
-.dialog-content {
-  font-size: 15px;
-  line-height: 1.8;
-  color: var(--text-color);
-}
-
+.inspiration-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr)); gap: 20px; }
+.inspiration-card { display: flex; flex-direction: column; align-items: stretch; min-width: 0; width: 100%; font: inherit; text-align: left; background: var(--content-bg); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; cursor: pointer; transition: box-shadow .2s, border-color .2s; }
+.inspiration-card:hover { border-color: var(--el-color-primary); box-shadow: 0 6px 18px rgba(0,0,0,.1); }
+.card-image { display: block; width: 100%; height: clamp(160px, 20vw, 230px); object-fit: cover; background: var(--bg-color); border-bottom: 1px solid var(--border-color); }
+.card-footer { padding: 14px 16px; }
+.card-title { display: block; line-height: 1.7; overflow-wrap: anywhere; color: var(--text-color); font-size: 15px; font-weight: 600; }
+.dialog-body { position: relative; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); height: min(600px, calc(100dvh - 64px)); min-height: 0; }
+.dialog-close { border: 1px solid rgba(255,255,255,.4); position: absolute; top: 12px; left: 12px; z-index: 10; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(0,0,0,.65); color: #fff; cursor: pointer; }
+.dialog-close:hover { background: rgba(0,0,0,.85); }
+.dialog-image { display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 0; background: var(--bg-color); }
+.dialog-image img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.dialog-text { min-width: 0; min-height: 0; padding: 28px 24px; overflow-y: auto; overscroll-behavior: contain; }
+.dialog-title { margin: 0 0 8px; font-size: 22px; line-height: 1.5; overflow-wrap: anywhere; color: var(--text-color); }
+.dialog-time { margin: 0 0 16px; font-size: 13px; color: var(--text-secondary); }
+.dialog-content { font-size: 15px; line-height: 1.8; color: var(--text-color); }
 @media (max-width: 640px) {
-  .dialog-body {
-    height: auto;
-  }
-
-  .dialog-image {
-    position: static;
-    width: 100%;
-  }
-
-  .dialog-image img {
-    aspect-ratio: 4 / 3;
-  }
-
-  .dialog-text {
-    position: static;
-  }
-
-}
-</style>
-
-<!-- 非 scoped：作用于 Element Plus 内部对话框元素 -->
-<style>
-.inspiration-dialog.el-dialog {
-  border-radius: 24px;
-  overflow: hidden;
-  padding: 0;
-}
-
-/* 隐藏空 header，避免顶部留白 */
-.inspiration-dialog.el-dialog .el-dialog__header {
-  display: none;
-}
-
-.inspiration-dialog.el-dialog .el-dialog__body {
-  padding: 0;
-  height: 520px;
+  .dialog-body { display: block; height: auto; }
+  .dialog-image { height: auto; padding: 12px; }
+  .dialog-image img { height: auto; max-height: 40dvh; width: 100%; object-fit: contain; }
+  .dialog-text { overflow: visible; padding: 22px 20px; }
 }
 </style>
 
 <style>
-@media (max-width: 640px) { .inspiration-dialog.el-dialog .el-dialog__body { height: auto; } }
+.inspiration-dialog.el-dialog { border-radius: 20px; overflow: hidden; padding: 0; max-width: calc(100vw - 24px); }
+.inspiration-dialog.el-dialog .el-dialog__header { display: none; }
+.inspiration-dialog.el-dialog .el-dialog__body { padding: 0; }
+@media (max-width: 640px) { .inspiration-dialog.el-dialog { max-height: calc(100dvh - 32px); overflow-y: auto; overscroll-behavior: contain; } }
 </style>

@@ -24,6 +24,7 @@
         <div class="desc md-body" v-html="descHtml"></div>
       </div>
     </el-card>
+    <HomeDiscover />
   </div>
 </template>
 
@@ -32,6 +33,7 @@ import { useI18n } from 'vue-i18n'
 import { fetchJson } from '@/utils/content'
 import { useMountedContent } from '@/composables/useContent'
 import LoadError from '@/components/LoadError.vue'
+import HomeDiscover from '@/components/HomeDiscover.vue'
 import { computed } from 'vue'
 import { marked } from 'marked'
 import { showBg } from '@/store/ui'

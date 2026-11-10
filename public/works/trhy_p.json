@@ -9,67 +9,89 @@
       "title": "角色图相关",
       "en": {
         "title": "Character Illustrations"
-      }
+      },
+      "kind": "reference"
     },
     {
       "id": "0-2",
       "title": "境界设定",
       "en": {
         "title": "Cultivation Realms"
-      }
+      },
+      "kind": "reference"
     },
     {
       "id": "1",
       "title": "第一章 大灾",
       "en": {
         "title": "Chapter 1: Catastrophe"
-      }
+      },
+      "kind": "story"
     },
     {
       "id": "2",
       "title": "第二章 灭族",
       "en": {
         "title": "Chapter 2: The Massacre"
-      }
+      },
+      "kind": "story"
     },
     {
       "id": "3",
       "title": "第三章 最后的希望",
       "en": {
         "title": "Chapter 3: The Last Hope"
-      }
+      },
+      "kind": "story"
     },
     {
       "id": "4",
       "title": "第四章 修仙传说",
       "en": {
         "title": "Chapter 4: Legends of Cultivation"
-      }
+      },
+      "kind": "story"
     },
     {
       "id": "5",
       "title": "第五章 客栈风波",
       "en": {
         "title": "Chapter 5: Trouble at the Inn"
-      }
+      },
+      "kind": "story"
     },
     {
       "id": "6",
       "title": "第六章 西北刀",
       "en": {
         "title": "Chapter 6: The Northwestern Blade"
-      }
+      },
+      "kind": "story"
     },
     {
       "id": "7",
       "title": "第七章 恩怨未了",
       "en": {
         "title": "Chapter 7: Unfinished Grievances"
-      }
+      },
+      "kind": "story"
     }
   ],
   "en": {
     "title": "Heaven and Humanity as One · Prequel",
     "description": "One night, a mysterious figure in a worn straw raincoat massacres the great cultivation families. Only three children survive. Years later, they set out to cultivate, travel the world, and seek revenge."
+  },
+  "readingGuide": {
+    "genre": "修仙 · 复仇 · 成长",
+    "relation": "本篇从家族遭逢大灾讲起，追随三个幸存孩子的成长。《如念》是同一故事的特别篇，侧重人物情感。",
+    "order": "初次阅读建议从「第一章 大灾」开始，按目录阅读正文。「角色概念图」和「境界设定」是可选补充，遇到人物或修行境界时再查也可以。",
+    "startChapter": "1",
+    "relatedWorkId": "ru_nian",
+    "updated": "2026-11-10",
+    "en": {
+      "genre": "Cultivation · Revenge · Coming of Age",
+      "relation": "This story begins with a catastrophe and follows three surviving children. Ru Nian is a related special episode focused on the characters’ relationships.",
+      "order": "Start with Chapter 1: Catastrophe and follow the story chapters in order. Character illustrations and cultivation realms are optional references that can be read when needed."
+    }
   }
 }

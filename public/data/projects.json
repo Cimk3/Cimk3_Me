@@ -2,31 +2,43 @@
   {
     "zh": {
       "title": "墨记",
-      "description": "一款用AI做的安卓端的笔记和待办软件",
+      "description": "把随手记下的内容和待办放在一起，默认保存在手机本地。",
       "tags": [
         "Kotlin",
         "JavaScript",
         "Vue3"
       ],
       "highlights": [
-        "安卓端笔记与待办管理",
-        "提供源码与官网下载入口"
+        "笔记支持搜索、标签、置顶和回收站",
+        "写 Markdown 时可以预览，也能设置提醒",
+        "笔记与待办可通过备份导出、导入迁移"
       ],
-      "approach": "借助 AI 制作。"
+      "approach": "借助 AI 制作。",
+      "caseStudy": {
+        "scenario": "想做一个纯净无广告、打开就能快速记录的笔记和待办软件。",
+        "experience": "把笔记、待办和备份放在一起，默认在手机本地保存，也保留 Markdown 预览。",
+        "tradeoff": "更新中补过长说明显示不全等细节，也增加了应用内更新，尽量让功能增加后依然好用。"
+      }
     },
     "en": {
       "title": "Moji-Notes",
-      "description": "An AI-assisted Android note & todo app",
+      "description": "Notes and to-dos together, saved locally on your phone by default.",
       "tags": [
         "Kotlin",
         "JavaScript",
         "Vue3"
       ],
       "highlights": [
-        "Notes and to-do management on Android",
-        "Source repository and download website"
+        "Search, tags, pinning, and a recycle bin for notes",
+        "Markdown preview and reminders",
+        "Backup export and import for moving your data"
       ],
-      "approach": "Created with AI assistance."
+      "approach": "Created with AI assistance.",
+      "caseStudy": {
+        "scenario": "To make a clean, ad-free app for quick notes and to-dos.",
+        "experience": "Notes, tasks, and backups in one place, with local storage and Markdown preview.",
+        "tradeoff": "Updates addressed clipped long descriptions and added in-app updating, keeping growing features easy to use."
+      }
     },
     "links": [
       {
@@ -43,27 +55,41 @@
   {
     "zh": {
       "title": "Moji-Web",
-      "description": "墨记网页端",
+      "description": "把墨记的记录习惯带到浏览器，让电脑和手机屏幕各有合适的布局。",
       "tags": [
         "Vue3",
         "TypeScript",
         "CSS"
       ],
       "highlights": [
-        "墨记的网页端"
-      ]
+        "笔记、待办与标签在浏览器本地保存",
+        "宽屏可并排编辑和预览 Markdown",
+        "备份格式与安卓端一致，可导出与导入"
+      ],
+      "caseStudy": {
+        "scenario": "在电脑上写较长的笔记，同时查看排版；换到窄屏时，列表和导航会重新排列。",
+        "experience": "保留笔记与待办的组织方式，界面按浏览器屏幕调整，而不是直接照搬手机页面。",
+        "tradeoff": "浏览器提醒依赖页面保持打开；页面关闭后的提醒能力与安卓端不同。"
+      }
     },
     "en": {
       "title": "Moji-Web",
-      "description": "A web client for Moji-Notes",
+      "description": "Moji-Notes in your browser, with layouts that fit both desktop and phone screens.",
       "tags": [
         "Vue3",
         "TypeScript",
         "CSS"
       ],
       "highlights": [
-        "A web client for InkNotes"
-      ]
+        "Notes, tasks, and tags stored locally in the browser",
+        "Side-by-side Markdown editing and preview on wide screens",
+        "Backup files compatible with the Android app"
+      ],
+      "caseStudy": {
+        "scenario": "Write a longer note on a computer with a live preview, then use the same organization on a narrow screen.",
+        "experience": "Keep the note and task workflow while adapting the interface to the browser’s available space.",
+        "tradeoff": "Browser reminders require the page to stay open; closed-page reminders differ from the Android app."
+      }
     },
     "id": "moji-web",
     "links": [
@@ -172,30 +198,46 @@
   },
   {
     "zh": {
-      "title": "方寸食光-MCPE",
-      "description": "我的世界基岩版物品Addon模组",
+      "title": "方寸食光",
+      "description": "为我的世界基岩版增添料理、餐具与场景摆件，让搭建的空间更有生活气息。",
       "tags": [
         "TypeScript"
       ],
       "highlights": [
-        "面向我的世界基岩版的物品附加包"
-      ]
+        "料理、餐具以及医疗、家居等多类场景摆件",
+        "在创造模式中摆放和收回，丰富场景搭建"
+      ],
+      "caseStudy": {
+        "scenario": "想丰富我的世界的游戏内容，给自己搭建的场景增加更多可摆放的细节。",
+        "experience": "从料理、餐具扩展到医疗和家居设备，把不同主题的摆件放进同一个附加包。",
+        "tradeoff": "大型摆件要兼顾显示、占地和收回操作。更新记录中持续调整这些细节，同时保留旧存档规则。"
+      }
     },
     "en": {
-      "title": "A Bite of Food - MCPE",
-      "description": "An item add-on for Minecraft Bedrock Edition",
+      "title": "Food & Table",
+      "description": "Food, tableware, and decorative props that bring more everyday detail to Minecraft Bedrock builds.",
       "tags": [
         "TypeScript"
       ],
       "highlights": [
-        "An item add-on for Minecraft Bedrock Edition"
-      ]
+        "Food, tableware, medical equipment, and home props",
+        "Place and collect decorations in Creative mode"
+      ],
+      "caseStudy": {
+        "scenario": "To enrich Minecraft with more placeable details for the scenes I build.",
+        "experience": "A single add-on that grows from food and tableware into medical, home, and other themed props.",
+        "tradeoff": "Large props must balance appearance, occupied space, and collection controls. Updates refine these details while preserving existing save rules."
+      }
     },
     "id": "food-and-table",
     "links": [
       {
         "kind": "website",
         "href": "https://www.mcpefcsg.top/#/"
+      },
+      {
+        "kind": "updates",
+        "href": "https://github.com/Cimk3/A-Bite-of-Time/releases"
       }
     ]
   }

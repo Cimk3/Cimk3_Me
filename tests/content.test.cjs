@@ -15,6 +15,7 @@ async function fixture(t) {
   }
   const post = { slug: 'hello', title: '你好', summary: '摘要', date: '2026-11-10T08:00:00+08:00', md: '/blog/hello.md', en: { title: 'Hello', summary: 'Summary' } }
   await write('data/profile.json', { name: 'Test', avatar: '/images/avatar.png', zh: { slogan: '你好', desc: '简介' }, en: { slogan: 'Hi', desc: 'About' } })
+  await write('data/home.json', { featured: [], updates: [] })
   for (const list of ['projects', 'inspirations', 'works', 'contacts', 'music']) await write(`data/${list}.json`, [])
   await write('data/posts.json', [post])
   await write('blog/hello.md', '# Hello\n\n![image](/images/avatar.png)')
@@ -133,4 +134,37 @@ test('copy waits for success and propagates rejection or missing API', async () 
   assert.equal(copied, true)
   await assert.rejects(copyText('contact', { writeText: async () => { throw new Error('denied') } }), /denied/)
   await assert.rejects(copyText('contact', null), /unavailable/)
+})
+
+test('home references are checked against actual content and update routes', async t => {
+  const f = await fixture(t)
+  await f.write('data/home.json', {
+    featured: [{ kind: 'post', refId: 'missing', reason: '推荐', en: { reason: 'Recommended' } }],
+    updates: [{ id: 'one', date: '2026-11-10', title: '近况', description: '说明', to: '/missing', en: { title: 'Update', description: 'Details' } }]
+  })
+  const errors = (await f.check()).errors.join('\n')
+  assert.match(errors, /推荐入口不存在/)
+  assert.match(errors, /近况入口不存在/)
+})
+
+test('reading guide must point to a real story chapter and another work', async t => {
+  const f = await fixture(t)
+  await f.write('works/one.json', {
+    id: 'one', title: '作品', description: '简介', en: { title: 'Work', description: 'About' }, cover: '/images/avatar.png',
+    chapters: [{ id: '1', title: '第一章', kind: 'reference', en: { title: 'Reference' } }],
+    readingGuide: { genre: '题材', relation: '关系', order: '顺序', en: { genre: 'Genre', relation: 'Related', order: 'Order' }, startChapter: '1', relatedWorkId: 'one', updated: '2026-11-10' }
+  })
+  await f.write('chapters/one/1.md', '# Reference')
+  const errors = (await f.check()).errors.join('\n')
+  assert.match(errors, /正文入口章节不存在/)
+  assert.match(errors, /关联作品不存在或指向自身/)
+})
+
+test('featured entries reuse canonical titles and preserve existing routes', async () => {
+  const { resolveFeatured } = await import('../src/utils/home-data.mjs')
+  const post = { slug: 'hello', title: '新标题', en: { title: 'New title' } }
+  const entries = resolveFeatured([{ kind: 'post', refId: 'hello' }], { posts: [post] })
+  assert.equal(entries[0].record, post)
+  assert.equal(entries[0].to, '/blog/hello')
+  assert.throws(() => resolveFeatured([{ kind: 'post', refId: 'gone' }], { posts: [] }), /Unknown featured/)
 })

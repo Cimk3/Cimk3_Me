@@ -26,6 +26,22 @@
         </div>
       </div>
 
+      <section v-if="novel.readingGuide" class="reading-guide" aria-labelledby="reading-guide-title">
+        <h2 id="reading-guide-title">{{ t('novel.guide') }}</h2>
+        <p class="reading-genre">{{ guide.genre }}</p>
+        <dl>
+          <dt>{{ t('novel.relation') }}</dt><dd>{{ guide.relation }}</dd>
+          <dt>{{ t('novel.order') }}</dt><dd>{{ guide.order }}</dd>
+        </dl>
+        <p class="reading-status">{{ t('novel.available', { count: storyChapters.length }) }}</p>
+        <p v-if="lastStory" class="reading-status">{{ t('novel.latest') }}：{{ chapterFor(lastStory).title }}</p>
+        <p class="reading-updated">{{ t('novel.guideUpdated') }} {{ formatDate(guide.updated, locale) }}</p>
+        <div class="reading-actions">
+          <router-link :to="`/works/${novel.id}/${guide.startChapter}`">{{ t('novel.start') }}</router-link>
+          <router-link :to="`/works/${guide.relatedWorkId}`">{{ t('novel.related') }}</router-link>
+        </div>
+      </section>
+
       <div class="chapter-list">
         <router-link
           v-for="ch in novel.chapters"
@@ -48,13 +64,16 @@ import { useMountedContent } from '@/composables/useContent'
 import LoadError from '@/components/LoadError.vue'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { localized } from '@/utils/content-data.mjs'
+import { localized, formatDate } from '@/utils/content-data.mjs'
 import { usePageTitle } from '@/composables/usePageTitle'
 const { t, locale } = useI18n()
 const novelId = useRoute().params.novelId
 const { data: novel, loading, error, load } = useMountedContent(() => fetchJson(`/works/${novelId}.json`))
 const current = computed(() => localized(novel.value, locale.value))
 const chapterFor = chapter => localized(chapter, locale.value)
+const guide = computed(() => localized(novel.value?.readingGuide, locale.value))
+const storyChapters = computed(() => (novel.value?.chapters || []).filter(chapter => chapter.kind !== 'reference'))
+const lastStory = computed(() => storyChapters.value[storyChapters.value.length - 1])
 usePageTitle(() => error.value ? t('error.title') : loading.value ? t('menu.works') : current.value.title)
 </script>
 
@@ -146,4 +165,18 @@ usePageTitle(() => error.value ? t('error.title') : loading.value ? t('menu.work
     aspect-ratio: 9 / 16;
   }
 }
+</style>
+
+<style scoped>
+.reading-guide { margin: 0 0 24px; padding: 24px; border: 1px solid var(--border-color); border-radius: 12px; background: var(--content-bg); color: var(--text-color); }
+.reading-guide h2 { font-size: 20px; margin-bottom: 8px; }
+.reading-genre { font-size: 14px; color: var(--el-color-primary); margin-bottom: 18px; }
+.reading-guide dl { font-size: 15px; line-height: 1.8; }
+.reading-guide dt { font-weight: 600; margin-top: 12px; }
+.reading-guide dd { color: var(--text-secondary); }
+.reading-status { margin-top: 14px; font-size: 14px; line-height: 1.7; }
+.reading-updated { margin-top: 8px; font-size: 12px; color: var(--text-secondary); }
+.reading-actions { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 20px; }
+.reading-actions a { color: var(--el-color-primary); text-underline-offset: 4px; font-size: 14px; line-height: 1.8; }
+@media (max-width: 480px) { .reading-guide { padding: 20px; } }
 </style>

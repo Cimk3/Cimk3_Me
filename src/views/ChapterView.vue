@@ -3,13 +3,15 @@
     <div v-if="loading" class="chapter-loading">
       <el-skeleton :rows="6" animated />
     </div>
-    <el-alert v-else-if="error" :title="error" type="error" show-icon :closable="false" />
+    <LoadError v-else-if="error" :error="error" @retry="load" />
     <template v-else>
       <router-link :to="`/works/${route.params.novelId}`" class="back-btn">
         <el-icon :size="16"><Icon icon="mdi:arrow-left" /></el-icon>
         <span>{{ t('msg.back') }}</span>
       </router-link>
-      <article class="md-body chapter-content" v-html="html"></article>
+      <h1 class="content-heading">{{ current.title }}</h1>
+      <BodyNotice />
+      <article class="md-body chapter-content" lang="zh-CN" v-html="data.html"></article>
 
       <div class="chapter-nav">
         <router-link
@@ -18,7 +20,7 @@
           class="nav-btn"
         >
           <el-icon :size="18"><Icon icon="mdi:chevron-left" /></el-icon>
-          <span class="nav-text">{{ prevChapter.title }}</span>
+          <span class="nav-text">{{ chapterFor(prevChapter).title }}</span>
         </router-link>
         <span v-else class="nav-btn disabled">
           <el-icon :size="18"><Icon icon="mdi:chevron-left" /></el-icon>
@@ -30,7 +32,7 @@
           :to="`/works/${route.params.novelId}/${nextChapter.id}`"
           class="nav-btn"
         >
-          <span class="nav-text">{{ nextChapter.title }}</span>
+          <span class="nav-text">{{ chapterFor(nextChapter).title }}</span>
           <el-icon :size="18"><Icon icon="mdi:chevron-right" /></el-icon>
         </router-link>
         <span v-else class="nav-btn disabled">
@@ -43,47 +45,32 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { marked } from 'marked'
-import { fetchJson, fetchText } from '@/utils/content'
-
-const { t } = useI18n()
+import { fetchJson, fetchText, ContentError } from '@/utils/content'
+import { localized } from '@/utils/content-data.mjs'
+import { useMountedContent } from '@/composables/useContent'
+import { usePageTitle } from '@/composables/usePageTitle'
+import LoadError from '@/components/LoadError.vue'
+import BodyNotice from '@/components/BodyNotice.vue'
+const { t, locale } = useI18n()
 const route = useRoute()
-const html = ref('')
-const chapters = ref([])
-const loading = ref(true)
-const error = ref('')
-
-const currentIndex = computed(() =>
-  chapters.value.findIndex((c) => c.id === route.params.chapterId)
-)
-
-const prevChapter = computed(() =>
-  currentIndex.value > 0 ? chapters.value[currentIndex.value - 1] : null
-)
-
-const nextChapter = computed(() =>
-  currentIndex.value >= 0 && currentIndex.value < chapters.value.length - 1
-    ? chapters.value[currentIndex.value + 1]
-    : null
-)
-
-async function load() {
-  try {
-    const novel = await fetchJson(`/works/${route.params.novelId}.json`)
-    chapters.value = novel.chapters || []
-    const md = await fetchText(`chapters/${route.params.novelId}/${route.params.chapterId}.md`)
-    html.value = marked.parse(md)
-  } catch (e) {
-    error.value = e.message
-  } finally {
-    loading.value = false
-  }
-}
-
-load()
+const { novelId, chapterId } = route.params
+const { data, loading, error, load } = useMountedContent(async () => {
+  const novel = await fetchJson(`/works/${novelId}.json`)
+  const chapters = novel.chapters || []
+  const index = chapters.findIndex(chapter => chapter.id === chapterId)
+  if (index < 0) throw new ContentError('notFound')
+  const html = marked.parse(await fetchText(`/chapters/${novelId}/${chapterId}.md`))
+  return { novel, chapters, index, html }
+})
+const chapterFor = chapter => localized(chapter, locale.value)
+const current = computed(() => chapterFor(data.value?.chapters[data.value.index]))
+const prevChapter = computed(() => data.value?.chapters[data.value.index - 1])
+const nextChapter = computed(() => data.value?.chapters[data.value.index + 1])
+usePageTitle(() => error.value ? t('error.title') : loading.value ? t('menu.works') : `${current.value.title} | ${localized(data.value.novel, locale.value).title}`)
 </script>
 
 <style scoped>

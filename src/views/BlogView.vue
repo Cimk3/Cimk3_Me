@@ -1,21 +1,23 @@
 <template>
   <div class="blog">
+    <h1 class="content-heading">{{ t('menu.blog') }}</h1>
     <div v-if="loading" class="blog-loading">
       <el-skeleton :rows="3" animated />
     </div>
-    <el-alert v-else-if="error" :title="error" type="error" show-icon :closable="false" />
+    <LoadError v-else-if="error" :error="error" @retry="load" />
+    <el-empty v-else-if="!posts.length" :description="t('msg.empty')" />
     <template v-else>
       <el-timeline>
         <el-timeline-item
           v-for="post in pagedPosts"
           :key="post.slug"
-          :timestamp="post.date"
+          :timestamp="formatDate(post.date, locale)"
           placement="top"
         >
           <router-link :to="`/blog/${post.slug}`" class="post-link">
             <el-card shadow="hover">
-              <h3>{{ post.title }}</h3>
-              <p class="post-summary">{{ post.summary }}</p>
+              <h3>{{ postFor(post).title }}</h3>
+              <p class="post-summary">{{ postFor(post).summary }}</p>
             </el-card>
           </router-link>
         </el-timeline-item>
@@ -35,29 +37,18 @@
 </template>
     
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { fetchJson } from '@/utils/content'
-
-const posts = ref([])
-const loading = ref(true)
-const error = ref('')
-
+import { useMountedContent } from '@/composables/useContent'
+import LoadError from '@/components/LoadError.vue'
+import { ref, computed } from 'vue'
+import { localized, newestFirst, formatDate } from '@/utils/content-data.mjs'
+const { t, locale } = useI18n()
+const postFor = (post) => localized(post, locale.value)
+const { data: posts, loading, error, load } = useMountedContent(() => fetchJson('/data/posts.json'), [])
 const pageSize = 5
 const currentPage = ref(1)
-const pagedPosts = computed(() => {
-  const start = (currentPage.value - 1) * pageSize
-  return posts.value.slice(start, start + pageSize)
-})
-
-onMounted(async () => {
-  try {
-    posts.value = await fetchJson('/data/posts.json')
-  } catch (e) {
-    error.value = e.message
-  } finally {
-    loading.value = false
-  }
-})
+const pagedPosts = computed(() => newestFirst(posts.value).slice((currentPage.value - 1) * pageSize, currentPage.value * pageSize))
 </script>
 
 <style scoped>

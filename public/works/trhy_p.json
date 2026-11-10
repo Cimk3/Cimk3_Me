@@ -4,14 +4,72 @@
   "cover": "images/works/trhy_p_cv.png",
   "description": "夜晚时分，一个身穿破旧蓑衣的妖人，血洗了人间修行界的世家大族，只有三个孩子幸存下来，三个孩子长大后，为了报仇，踏上了修行之路，游历天下，苦苦寻找仇人......",
   "chapters": [
-    { "id": "0-1", "title": "角色图相关" },
-    { "id": "0-2", "title": "境界设定"},
-    { "id": "1" , "title": "第一章 大灾"},
-    { "id": "2" , "title": "第二章 灭族"},
-    { "id": "3" , "title": "第三章 最后的希望"},
-    { "id": "4" , "title": "第四章 修仙传说"},
-    { "id": "5" , "title": "第五章 客栈风波"},
-    { "id": "6" , "title": "第六章 西北刀"},
-    { "id": "7" , "title": "第七章 恩怨未了"}
-  ]
+    {
+      "id": "0-1",
+      "title": "角色图相关",
+      "en": {
+        "title": "Character Illustrations"
+      }
+    },
+    {
+      "id": "0-2",
+      "title": "境界设定",
+      "en": {
+        "title": "Cultivation Realms"
+      }
+    },
+    {
+      "id": "1",
+      "title": "第一章 大灾",
+      "en": {
+        "title": "Chapter 1: Catastrophe"
+      }
+    },
+    {
+      "id": "2",
+      "title": "第二章 灭族",
+      "en": {
+        "title": "Chapter 2: The Massacre"
+      }
+    },
+    {
+      "id": "3",
+      "title": "第三章 最后的希望",
+      "en": {
+        "title": "Chapter 3: The Last Hope"
+      }
+    },
+    {
+      "id": "4",
+      "title": "第四章 修仙传说",
+      "en": {
+        "title": "Chapter 4: Legends of Cultivation"
+      }
+    },
+    {
+      "id": "5",
+      "title": "第五章 客栈风波",
+      "en": {
+        "title": "Chapter 5: Trouble at the Inn"
+      }
+    },
+    {
+      "id": "6",
+      "title": "第六章 西北刀",
+      "en": {
+        "title": "Chapter 6: The Northwestern Blade"
+      }
+    },
+    {
+      "id": "7",
+      "title": "第七章 恩怨未了",
+      "en": {
+        "title": "Chapter 7: Unfinished Grievances"
+      }
+    }
+  ],
+  "en": {
+    "title": "Heaven and Humanity as One · Prequel",
+    "description": "One night, a mysterious figure in a worn straw raincoat massacres the great cultivation families. Only three children survive. Years later, they set out to cultivate, travel the world, and seek revenge."
+  }
 }

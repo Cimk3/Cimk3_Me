@@ -8,48 +8,38 @@
     <div v-if="loading" class="blog-post-loading">
       <el-skeleton :rows="6" animated />
     </div>
-    <el-alert v-else-if="error" :title="error" type="error" show-icon :closable="false" />
+    <LoadError v-else-if="error" :error="error" @retry="load" />
     <template v-else>
-      <h1 class="post-title">{{ post.title }}</h1>
-      <p class="post-date">{{ post.date }}</p>
+      <h1 class="post-title">{{ current.title }}</h1>
+      <p class="post-date">{{ formatDate(data.post.date, locale) }}</p>
       <!-- v-html 渲染 marked 解析后的 HTML -->
-      <article class="md-body" v-html="html"></article>
+      <BodyNotice />
+      <article class="md-body" lang="zh-CN" v-html="data.html"></article>
     </template>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { marked } from 'marked'
-import { fetchJson, fetchText } from '@/utils/content'
-
-const { t } = useI18n()
-const route = useRoute()
-const post = ref(null)
-const html = ref('')
-const loading = ref(true)
-const error = ref('')
-
-async function load() {
-  try {
-    // 1. 先读目录清单，根据 slug 找到对应文章
-    const posts = await fetchJson('/data/posts.json')
-    const found = posts.find((p) => p.slug === route.params.slug)
-    if (!found) throw new Error('文章不存在')
-    post.value = found
-    // 2. 再抓取 Markdown 正文并解析
-    const md = await fetchText(found.md)
-    html.value = marked.parse(md)
-  } catch (e) {
-    error.value = e.message
-  } finally {
-    loading.value = false
-  }
-}
-
-load()
+import { fetchJson, fetchText, ContentError } from '@/utils/content'
+import { localized, formatDate } from '@/utils/content-data.mjs'
+import { useMountedContent } from '@/composables/useContent'
+import { usePageTitle } from '@/composables/usePageTitle'
+import LoadError from '@/components/LoadError.vue'
+import BodyNotice from '@/components/BodyNotice.vue'
+const { t, locale } = useI18n()
+const slug = useRoute().params.slug
+const { data, loading, error, load } = useMountedContent(async () => {
+  const posts = await fetchJson('/data/posts.json')
+  const post = posts.find(item => item.slug === slug)
+  if (!post) throw new ContentError('notFound')
+  return { post, html: marked.parse(await fetchText(post.md)) }
+})
+const current = computed(() => localized(data.value?.post, locale.value))
+usePageTitle(() => error.value ? t('error.title') : loading.value ? t('menu.blog') : current.value.title)
 </script>
 
 <style scoped>

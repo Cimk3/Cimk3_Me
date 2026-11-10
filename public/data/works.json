@@ -3,12 +3,20 @@
     "id": "ru_nian",
     "title": "如念",
     "cover": "images/works/ru_nian.png",
-    "description": "作品的一个前瞻,也算是特别篇"
+    "description": "作品的一个前瞻,也算是特别篇",
+    "en": {
+      "title": "Ru Nian",
+      "description": "A preview of the story, also serving as a special episode."
+    }
   },
   {
     "id": "trhy_p",
     "title": "天人合一·前传",
     "cover": "images/works/trhy_p.png",
-    "description": "第一本修仙小说"
+    "description": "第一本修仙小说",
+    "en": {
+      "title": "Heaven and Humanity as One · Prequel",
+      "description": "My first cultivation novel."
+    }
   }
 ]

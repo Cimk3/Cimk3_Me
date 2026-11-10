@@ -3,7 +3,7 @@
     <div v-if="loading" class="novel-loading">
       <el-skeleton :rows="5" animated />
     </div>
-    <el-alert v-else-if="error" :title="error" type="error" show-icon :closable="false" />
+    <LoadError v-else-if="error" :error="error" @retry="load" />
     <template v-else>
       <router-link to="/works" class="back-btn">
         <el-icon :size="16"><Icon icon="mdi:arrow-left" /></el-icon>
@@ -18,11 +18,11 @@
           :preview-src-list="[novel.cover]"
           preview-teleported
           fit="cover"
-          :alt="novel.title"
+          :alt="current.title"
         />
         <div class="novel-meta">
-          <h1>{{ novel.title }}</h1>
-          <p class="novel-desc">{{ novel.description }}</p>
+          <h1>{{ current.title }}</h1>
+          <p class="novel-desc">{{ current.description }}</p>
         </div>
       </div>
 
@@ -33,7 +33,7 @@
           :to="`/works/${novel.id}/${ch.id}`"
           class="chapter-item"
         >
-          <span class="chapter-title">{{ ch.title }}</span>
+          <span class="chapter-title">{{ chapterFor(ch).title }}</span>
           <el-icon :size="16" class="chapter-arrow"><Icon icon="mdi:chevron-right" /></el-icon>
         </router-link>
       </div>
@@ -42,26 +42,20 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { fetchJson } from '@/utils/content'
-
-const { t } = useI18n()
-const route = useRoute()
-const novel = ref(null)
-const loading = ref(true)
-const error = ref('')
-
-onMounted(async () => {
-  try {
-    novel.value = await fetchJson(`/works/${route.params.novelId}.json`)
-  } catch (e) {
-    error.value = e.message
-  } finally {
-    loading.value = false
-  }
-})
+import { useMountedContent } from '@/composables/useContent'
+import LoadError from '@/components/LoadError.vue'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { localized } from '@/utils/content-data.mjs'
+import { usePageTitle } from '@/composables/usePageTitle'
+const { t, locale } = useI18n()
+const novelId = useRoute().params.novelId
+const { data: novel, loading, error, load } = useMountedContent(() => fetchJson(`/works/${novelId}.json`))
+const current = computed(() => localized(novel.value, locale.value))
+const chapterFor = chapter => localized(chapter, locale.value)
+usePageTitle(() => error.value ? t('error.title') : loading.value ? t('menu.works') : current.value.title)
 </script>
 
 <style scoped>

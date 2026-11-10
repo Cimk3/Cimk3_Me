@@ -9,55 +9,55 @@ const routes = [
         path: '',
         name: 'home',
         component: () => import('../views/HomeView.vue'),
-        meta: { title: 'Home' }
+        meta: { titleKey: 'menu.home' }
       },
       {
         path: 'project',
         name: 'project',
         component: () => import('../views/ProjectView.vue'),
-        meta: { title: 'Project' }
+        meta: { titleKey: 'menu.project' }
       },
       {
         path: 'blog',
         name: 'blog',
         component: () => import('../views/BlogView.vue'),
-        meta: { title: 'Blog' }
+        meta: { titleKey: 'menu.blog' }
       },
       {
         path: 'blog/:slug',
         name: 'blog-post',
         component: () => import('../views/BlogPostView.vue'),
-        meta: { title: 'Blog' }
+        meta: { titleKey: 'menu.blog' }
       },
       {
         path: 'inspiration',
         name: 'inspiration',
         component: () => import('../views/InspirationView.vue'),
-        meta: { title: 'Inspiration' }
+        meta: { titleKey: 'menu.inspiration' }
       },
       {
         path: 'works',
         name: 'works',
         component: () => import('../views/WorksView.vue'),
-        meta: { title: 'Works' }
+        meta: { titleKey: 'menu.works' }
       },
       {
         path: 'works/:novelId',
         name: 'novel',
         component: () => import('../views/NovelView.vue'),
-        meta: { title: 'Works' }
+        meta: { titleKey: 'menu.works' }
       },
       {
         path: 'works/:novelId/:chapterId',
         name: 'chapter',
         component: () => import('../views/ChapterView.vue'),
-        meta: { title: 'Works' }
+        meta: { titleKey: 'menu.works' }
       },
       {
         path: 'connect',
         name: 'connect',
         component: () => import('../views/ConnectView.vue'),
-        meta: { title: 'Connect' }
+        meta: { titleKey: 'menu.connect' }
       }
     ],
   },
@@ -66,10 +66,6 @@ const routes = [
 const router = createRouter({
   history: createWebHashHistory(),
   routes
-})
-
-router.afterEach((to) => {
-  document.title = to.meta.title ? `${to.meta.title}|My Site` : 'My Site'
 })
 
 export default router

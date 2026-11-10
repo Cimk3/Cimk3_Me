@@ -4,27 +4,39 @@
     "image": "images/inspiration/1.jpg",
     "title": "打算做个资源分享页",
     "time": "2026-08-25",
-    "md": "inspirations/1.md"
+    "md": "inspirations/1.md",
+    "en": {
+      "title": "Planning a Resource Sharing Page"
+    }
   },
   {
     "id": 2,
     "image": "images/inspiration/2.jpg",
     "title": "想写一个修仙小说",
     "time": "2026-08-25",
-    "md": "inspirations/2.md"
+    "md": "inspirations/2.md",
+    "en": {
+      "title": "An Idea for a Cultivation Novel"
+    }
   },
   {
     "id": 3,
     "image": "images/inspiration/3.jpg",
     "title": "资源分享页想法",
     "time": "2026-08-26",
-    "md": "inspirations/3.md"
+    "md": "inspirations/3.md",
+    "en": {
+      "title": "Ideas for the Resource Sharing Page"
+    }
   },
   {
     "id": 4,
     "image": "images/works/cyw_pv.png",
     "title": "小说情感线的部分想法",
     "time": "2026-08-27",
-    "md": "inspirations/4.md"
+    "md": "inspirations/4.md",
+    "en": {
+      "title": "Thoughts on the Novel’s Relationships"
+    }
   }
 ]

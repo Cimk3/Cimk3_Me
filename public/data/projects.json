@@ -1,93 +1,202 @@
 [
   {
     "zh": {
-      "title": "墨记 Gitee仓库",
-      "description": "一款用AI做的安卓端的笔记和待办软件",
-      "tags": ["Kotlin", "JavaScript"]
-    },
-    "en": {
-      "title": "Moji-Notes Gitee Repository",
-      "description": "An AI-assisted Android note & todo app",
-      "tags": ["Kotlin", "JavaScript"]
-    },
-    "link": "https://gitee.com/a2034379061/ink-notes"
-  },
-  {
-      "zh": {
       "title": "墨记",
-      "description": "一款用AI做的安卓端的笔记和待办软件，官网链接",
-      "tags": ["Kotlin", "JavaScript","Vue3"]
+      "description": "一款用AI做的安卓端的笔记和待办软件",
+      "tags": [
+        "Kotlin",
+        "JavaScript",
+        "Vue3"
+      ],
+      "highlights": [
+        "安卓端笔记与待办管理",
+        "提供源码与官网下载入口"
+      ],
+      "approach": "借助 AI 制作。"
     },
     "en": {
-      "title": "Moji-Notes Download Website",
-      "description": "An AI-assisted Android note & todo app, Download Website Page",
-      "tags": ["Kotlin", "JavaScript","Vue3"]
+      "title": "Moji-Notes",
+      "description": "An AI-assisted Android note & todo app",
+      "tags": [
+        "Kotlin",
+        "JavaScript",
+        "Vue3"
+      ],
+      "highlights": [
+        "Notes and to-do management on Android",
+        "Source repository and download website"
+      ],
+      "approach": "Created with AI assistance."
     },
-    "link": "https://moji-intro-website.a2034379061.workers.dev/#/"
+    "links": [
+      {
+        "kind": "source",
+        "href": "https://gitee.com/a2034379061/ink-notes"
+      },
+      {
+        "kind": "website",
+        "href": "https://moji-intro-website.a2034379061.workers.dev/#/"
+      }
+    ],
+    "id": "ink-notes"
   },
   {
     "zh": {
       "title": "Moji-Web",
       "description": "墨记网页端",
-      "tags": ["Vue3", "TypeScript", "CSS"]
+      "tags": [
+        "Vue3",
+        "TypeScript",
+        "CSS"
+      ],
+      "highlights": [
+        "墨记的网页端"
+      ]
     },
     "en": {
       "title": "Moji-Web",
-      "description": "Web client of InkNotes",
-      "tags": ["Vue3", "TypeScript", "CSS"]
+      "description": "A web client for Moji-Notes",
+      "tags": [
+        "Vue3",
+        "TypeScript",
+        "CSS"
+      ],
+      "highlights": [
+        "A web client for InkNotes"
+      ]
     },
-    "link": "https://gitee.com/a2034379061/moji_-web"
+    "id": "moji-web",
+    "links": [
+      {
+        "kind": "source",
+        "href": "https://gitee.com/a2034379061/moji_-web"
+      }
+    ]
   },
   {
     "zh": {
       "title": "Qt-Pet",
       "description": "一个简单的桌面宠物",
-      "tags": ["Qt", "C++"]
+      "tags": [
+        "Qt",
+        "C++"
+      ],
+      "highlights": [
+        "桌面宠物应用"
+      ]
     },
     "en": {
       "title": "Qt-Pet",
       "description": "A simple desktop pet",
-      "tags": ["Qt", "C++"]
+      "tags": [
+        "Qt",
+        "C++"
+      ],
+      "highlights": [
+        "A desktop pet application"
+      ]
     },
-    "link": "https://github.com/Cimk3/Qt_Pet"
+    "id": "qt-pet",
+    "links": [
+      {
+        "kind": "source",
+        "href": "https://github.com/Cimk3/Qt_Pet"
+      }
+    ]
   },
   {
     "zh": {
       "title": "壮锦介绍网站Demo",
       "description": "很久之前用AI写的一个html，介绍壮锦，等有兴趣了再重新做这个",
-      "tags": ["HTML", "CSS", "JavaScript"]
+      "tags": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "highlights": [
+        "介绍壮锦文化的网页演示"
+      ],
+      "approach": "借助 AI 制作的早期 HTML 演示。"
     },
     "en": {
       "title": "Zhuang Brocade Intro Site Demo",
       "description": "An HTML page about Zhuang brocade written with AI a while ago; will rebuild it when interested",
-      "tags": ["HTML", "CSS", "JavaScript"]
+      "tags": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "highlights": [
+        "A web demo introducing Zhuang brocade"
+      ],
+      "approach": "An early HTML demo created with AI assistance."
     },
-    "link": "https://github.com/Cimk3/-html"
+    "id": "zhuang-brocade",
+    "links": [
+      {
+        "kind": "source",
+        "href": "https://github.com/Cimk3/-html"
+      }
+    ]
   },
   {
     "zh": {
       "title": "PlaneWar-Qt",
       "description": "用Qt实现的一个简单的飞机大战小游戏",
-      "tags": ["Qt", "C++"]
+      "tags": [
+        "Qt",
+        "C++"
+      ],
+      "highlights": [
+        "使用 Qt 实现的飞机大战小游戏"
+      ]
     },
     "en": {
       "title": "PlaneWar-Qt",
       "description": "A simple airplane battle game implemented in Qt",
-      "tags": ["Qt", "C++"]
+      "tags": [
+        "Qt",
+        "C++"
+      ],
+      "highlights": [
+        "An airplane battle game built with Qt"
+      ]
     },
-    "link": "https://gitee.com/a2034379061/plane-war"
+    "id": "plane-war",
+    "links": [
+      {
+        "kind": "source",
+        "href": "https://gitee.com/a2034379061/plane-war"
+      }
+    ]
   },
   {
-    "zh":{
-      "title":"方寸食光-MCPE",
-      "description":"我的世界基岩版物品Addon模组",
-      "tags":["TypeScript"]
+    "zh": {
+      "title": "方寸食光-MCPE",
+      "description": "我的世界基岩版物品Addon模组",
+      "tags": [
+        "TypeScript"
+      ],
+      "highlights": [
+        "面向我的世界基岩版的物品附加包"
+      ]
     },
-    "en":{
-      "title":"A Bite of Food - MCPE",
-      "description":"A Addon mod of Minecraft Bedrock",
-      "tags":["TypeScript"]
+    "en": {
+      "title": "A Bite of Food - MCPE",
+      "description": "An item add-on for Minecraft Bedrock Edition",
+      "tags": [
+        "TypeScript"
+      ],
+      "highlights": [
+        "An item add-on for Minecraft Bedrock Edition"
+      ]
     },
-    "link":"https://www.mcpefcsg.top/#/"
+    "id": "food-and-table",
+    "links": [
+      {
+        "kind": "website",
+        "href": "https://www.mcpefcsg.top/#/"
+      }
+    ]
   }
 ]

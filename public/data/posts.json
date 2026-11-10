@@ -2,29 +2,45 @@
   {
     "slug": "hello",
     "title": "Hello",
-    "date": "2026-08-25 14:10",
+    "date": "2026-08-25T14:10:00+08:00",
     "summary": "第一篇文章，简单打个招呼",
-    "md": "/blog/hello.md"
+    "md": "/blog/hello.md",
+    "en": {
+      "title": "Hello",
+      "summary": "A short introduction and greeting."
+    }
   },
   {
-    "slug":"recommend",
-    "title":"强烈推荐一部剧#1",
-    "date":"2026-08-25 22:15",
-    "summary":"推荐《福尔摩斯探案集》",
-    "md":"/blog/recommend.md"
+    "slug": "recommend",
+    "title": "强烈推荐一部剧#1",
+    "date": "2026-08-25T22:15:00+08:00",
+    "summary": "推荐《福尔摩斯探案集》",
+    "md": "/blog/recommend.md",
+    "en": {
+      "title": "A TV Recommendation #1",
+      "summary": "Recommending The Adventures of Sherlock Holmes."
+    }
   },
   {
-    "slug":"firstWork",
-    "title":"我的第一本作品上线网站了",
-    "date":"2026-08-26 21:28",
-    "summary":"第一本作品《如念》已经上线，快去作品集看看吧",
-    "md":"/blog/作品上线.md"
+    "slug": "firstWork",
+    "title": "我的第一本作品上线网站了",
+    "date": "2026-08-26T21:28:00+08:00",
+    "summary": "第一本作品《如念》已经上线，快去作品集看看吧",
+    "md": "/blog/作品上线.md",
+    "en": {
+      "title": "My First Work Is Now Online",
+      "summary": "Ru Nian is now available in Works."
+    }
   },
   {
-    "slug":"trhy_p_start",
-    "title":"正篇上线",
-    "date":"2026-08-27 22:56",
-    "summary":"如念的正篇已经上线了，标题暂时定的以后可能会改",
-    "md":"/blog/正篇上线.md"
+    "slug": "trhy_p_start",
+    "title": "正篇上线",
+    "date": "2026-08-27T22:56:00+08:00",
+    "summary": "如念的正篇已经上线了，标题暂时定的以后可能会改",
+    "md": "/blog/正篇上线.md",
+    "en": {
+      "title": "The Main Story Is Now Online",
+      "summary": "The main story is now available, with a working title that may change."
+    }
   }
 ]

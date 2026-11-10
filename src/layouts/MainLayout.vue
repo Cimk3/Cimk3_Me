@@ -1,17 +1,17 @@
 <template>
     <div class="layout">
         <!-- 移动端菜单按钮 + 遮罩 -->
-        <div class="menu-btn" :class="{ open: menuOpen }" @click="menuOpen = !menuOpen">
+        <button type="button" class="menu-btn" :class="{ open: menuOpen }" :aria-label="t(menuOpen ? 'tooltip.closeMenu' : 'tooltip.menu')" :aria-expanded="menuOpen" aria-controls="site-sidebar" @click="menuOpen = !menuOpen">
             <el-icon :size="20">
                 <Icon :icon="menuOpen ? 'mdi:close' : 'mdi:menu'" />
             </el-icon>
-        </div>
+        </button>
         <div class="sidebar-mask" v-if="menuOpen" @click="menuOpen = false"></div>
         <!-- 左侧导航栏 -->
-        <aside class="sidebar" :class="{ 'has-bg': showBg, 'menu-open': menuOpen }"
+        <aside id="site-sidebar" class="sidebar" :class="{ 'has-bg': showBg, 'menu-open': menuOpen }"
             :style="showBg ? sidebarBgStyle : ''">
             <div class="logo">
-                <img class="logo-avatar" src="/images/LayoutHead.png" alt="avatar" />
+                <img class="logo-avatar" src="/images/LayoutHead.png" alt="Cimk3" />
             </div>
             <el-menu :default-active="activeMenu" class="sidebar-menu" router background-color="transparent">
                 <el-menu-item v-for="item in menus" :key="item.path" :index="item.path">
@@ -22,32 +22,24 @@
                 </el-menu-item>
             </el-menu>
             <div class="sidebar-footer">
-                <div class="footer-btn music-control" :class="{ playing }" @click="togglePlay" title="BGM">
-                    <el-icon :size="18">
-                        <Icon :icon="playing ? 'fluent:music-note-1-20-filled' : 'fluent:music-note-off-1-20-filled'" />
-                    </el-icon>
-                </div>
-                <div class="footer-btn music-next" @click="nextTrack" :title="t('tooltip.next')">
-                    <el-icon :size="18">
-                        <Icon icon="fluent:arrow-next-20-filled" />
-                    </el-icon>
-                </div>
-                <div class="footer-btn bg-toggle" :class="{ active: showBg }" @click="toggleBg" :title="t('tooltip.background')">
-                    <el-icon :size="18">
-                        <Icon icon="akar-icons:image" />
-                    </el-icon>
-                </div>
-                <div class="footer-btn theme-toggle" role="button" @click="toggleTheme" :title="t('tooltip.theme')">
-                    <el-icon :size="18">
-                        <Moon v-if="isDark" />
-                        <Sunny v-else />
-                    </el-icon>
-                </div>
-                <div class="footer-btn lang-toggle" @click="toggleLocale" :title="t('tooltip.lang')">
-                    <el-icon :size="18">
-                        <Icon :icon="locale === 'zh' ? 'icon-park-outline:english' : 'icon-park-outline:chinese'" />
-                    </el-icon>
-                </div>
+                <button type="button" class="footer-btn music-control" :class="{ playing }" @click="togglePlay"
+                    :title="t(playPending ? 'msg.loading' : playing ? 'tooltip.pause' : 'tooltip.play')"
+                    :aria-label="t(playPending ? 'msg.loading' : playing ? 'tooltip.pause' : 'tooltip.play')"
+                    :aria-pressed="playing" :aria-busy="playPending">
+                    <el-icon :size="18"><Icon :icon="playing ? 'fluent:music-note-1-20-filled' : 'fluent:music-note-off-1-20-filled'" /></el-icon>
+                </button>
+                <button type="button" class="footer-btn music-next" @click="nextTrack" :title="t('tooltip.next')" :aria-label="t('tooltip.next')">
+                    <el-icon :size="18"><Icon icon="fluent:arrow-next-20-filled" /></el-icon>
+                </button>
+                <button type="button" class="footer-btn bg-toggle" :class="{ active: showBg }" @click="toggleBg" :title="t('tooltip.background')" :aria-label="t('tooltip.background')" :aria-pressed="showBg">
+                    <el-icon :size="18"><Icon icon="akar-icons:image" /></el-icon>
+                </button>
+                <button type="button" class="footer-btn theme-toggle" @click="toggleTheme" :title="t('tooltip.theme')" :aria-label="t('tooltip.theme')" :aria-pressed="isDark">
+                    <el-icon :size="18"><Moon v-if="isDark" /><Sunny v-else /></el-icon>
+                </button>
+                <button type="button" class="footer-btn lang-toggle" @click="toggleLocale" :title="t('tooltip.lang')" :aria-label="t('tooltip.lang')">
+                    <el-icon :size="18"><Icon :icon="locale === 'zh' ? 'icon-park-outline:english' : 'icon-park-outline:chinese'" /></el-icon>
+                </button>
             </div>
         </aside>
         <!-- 右侧内容 -->
@@ -58,67 +50,26 @@
                 </transition>
             </router-view>
         </main>
-        <audio ref="audioEl" :src="currentSrc" preload="none" @play="playing = true" @pause="playing = false"
-            @ended="nextTrack"></audio>
+        <audio ref="audioEl" :src="currentSrc" preload="none" @playing="playing = true" @pause="playing = false"
+            @ended="nextTrack" @error="onAudioError"></audio>
     </div>
 </template>
 
 <script setup>
 import { useRoute } from 'vue-router'
-import { computed, ref, watch, onMounted } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { fetchJson } from '@/utils/content'
+import { ElMessage } from 'element-plus'
+import { useMusic } from '@/composables/useMusic'
 import { showBg } from '@/store/ui'
 
 const { t, locale } = useI18n()
 const route = useRoute()
-// ===== BGM 播放逻辑 =====
-const tracks = ref([])          // 播放列表
-const currentIndex = ref(0)     // 当前曲目下标
-const playing = ref(false)      // 是否正在播放
-const audioEl = ref(null)       // audio 元素引用
-
-const currentTrack = computed(() => tracks.value[currentIndex.value])
-const currentSrc = computed(() => currentTrack.value?.src || '')
-
-// 挂载时加载播放列表
-onMounted(async () => {
-    try {
-        tracks.value = await fetchJson('data/music.json')
-    } catch {
-        tracks.value = []
-    }
-})
-
-// 安全播放：捕获 play() 被中断/失败的 Promise 拒绝，避免报错
-const playAudio = () => {
-    const audio = audioEl.value
-    if (!audio) return
-    audio.play().catch(() => { })
+const audioEl = ref(null)
+const { playing, playPending, currentSrc, togglePlay, nextTrack, onAudioError } = useMusic(audioEl)
+function saveSetting(key, value) {
+    try { localStorage.setItem(key, value) } catch { ElMessage.warning(t('msg.saveFailed')) }
 }
-
-// 点击音乐图标：播放/暂停切换
-const togglePlay = () => {
-    const audio = audioEl.value
-    if (!audio || !tracks.value.length) return
-    playing.value ? audio.pause() : playAudio()
-}
-
-// 一曲结束 → 自动下一首；最后一首结束 → 回到第一首（循环）
-const nextTrack = () => {
-    if (!tracks.value.length) return
-    currentIndex.value = (currentIndex.value + 1) % tracks.value.length
-    playing.value = true // 确保切歌后自动播放（兼容部分浏览器 on ended 触发 pause 的情况）
-}
-
-// 曲目变化后，若处于播放状态则自动播放新歌
-watch(currentSrc, () => {
-    const audio = audioEl.value
-    if (audio && playing.value) {
-        playAudio()
-    }
-}, { flush: 'post' })
-// ===== BGM 播放逻辑结束 =====
 
 const menus = computed(() => [
     { path: '/', name: t('menu.home'), icon: 'HomeFilled' },
@@ -132,7 +83,7 @@ const menus = computed(() => [
 //切换中英文
 const toggleLocale = () => {
     locale.value = locale.value === 'zh' ? 'en' : 'zh'
-    localStorage.setItem('locale', locale.value)
+    saveSetting('locale', locale.value)
 }
 
 const activeMenu = computed(() => {
@@ -147,7 +98,9 @@ watch(() => route.path, () => {
     menuOpen.value = false
 })
 
-const isDark = ref(localStorage.getItem('theme') === 'dark')
+let savedTheme
+try { savedTheme = localStorage.getItem('theme') } catch { /* Storage may be unavailable. */ }
+const isDark = ref(savedTheme === 'dark')
 const applyTheme = () => {
     document.documentElement.classList.toggle('dark', isDark.value)
 }
@@ -155,7 +108,7 @@ applyTheme()
 const toggleTheme = () => {
     isDark.value = !isDark.value
     applyTheme()
-    localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
+    saveSetting('theme', isDark.value ? 'dark' : 'light')
 }
 
 // 背景开关：主页卡片 mp4 背景 + 侧边栏背景图
@@ -199,6 +152,10 @@ const contentBgStyle = {
 
 /* 统一的底部按钮样式 */
 .footer-btn {
+    border: 0;
+    background: transparent;
+    font: inherit;
+    flex-shrink: 0;
     position: relative;
     width: 34px;
     height: 34px;
@@ -229,9 +186,7 @@ const contentBgStyle = {
 }
 
 /* 背景开启时：半透明遮罩提升可读性，内容置于遮罩之上 */
-.sidebar.has-bg {
-    position: relative;
-}
+
 
 .sidebar.has-bg::before {
     content: '';

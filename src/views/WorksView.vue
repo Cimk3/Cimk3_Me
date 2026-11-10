@@ -1,15 +1,17 @@
 <template>
   <div class="works">
+    <h1 class="content-heading">{{ t('menu.works') }}</h1>
     <div v-if="loading" class="works-loading">
       <el-skeleton :rows="4" animated />
     </div>
-    <el-alert v-else-if="error" :title="error" type="error" show-icon :closable="false" />
+    <LoadError v-else-if="error" :error="error" @retry="load" />
+    <el-empty v-else-if="!works.length" :description="t('msg.empty')" />
     <div v-else class="works-grid">
       <router-link v-for="w in works" :key="w.id" :to="`/works/${w.id}`" class="work-card">
-        <img class="work-cover" :src="w.cover" :alt="w.title" loading="lazy" />
+        <img class="work-cover" :src="w.cover" :alt="workFor(w).title" loading="lazy" />
         <div class="work-info">
-          <h3>{{ w.title }}</h3>
-          <p class="work-desc">{{ w.description }}</p>
+          <h3>{{ workFor(w).title }}</h3>
+          <p class="work-desc">{{ workFor(w).description }}</p>
         </div>
       </router-link>
     </div>
@@ -17,28 +19,20 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { fetchJson } from '@/utils/content'
-
-const works = ref([])
-const loading = ref(true)
-const error = ref('')
-
-onMounted(async () => {
-  try {
-    works.value = await fetchJson('/data/works.json')
-  } catch (e) {
-    error.value = e.message
-  } finally {
-    loading.value = false
-  }
-})
+import { useMountedContent } from '@/composables/useContent'
+import LoadError from '@/components/LoadError.vue'
+import { localized } from '@/utils/content-data.mjs'
+const { t, locale } = useI18n()
+const workFor = (work) => localized(work, locale.value)
+const { data: works, loading, error, load } = useMountedContent(() => fetchJson('/data/works.json'), [])
 </script>
 
 <style scoped>
 .works-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(290px, 100%), 1fr));
   gap: 20px;
 }
 

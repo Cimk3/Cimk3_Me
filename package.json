@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "check:content": "node scripts/check-content.cjs",
+    "prebuild": "npm run check:content",
+    "test": "node --test tests/*.test.cjs"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.2",

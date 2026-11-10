@@ -31,6 +31,7 @@ html.dark {
 }
 
 .sidebar {
+  position: relative;
   width: 220px;
   flex-shrink: 0;
   border-right: 1px solid var(--border-color);
@@ -74,6 +75,7 @@ html.dark {
 }
 
 .content {
+  min-width: 0;
   flex: 1;
   overflow-y: auto;
   padding: 24px;
@@ -154,4 +156,11 @@ body,
 .md-body th, .md-body td {
   border: 1px solid var(--border-color);
   padding: 8px 12px;
+}
+button, a { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, a:focus-visible { outline: 2px solid var(--el-color-primary); outline-offset: 3px; }
+.body-notice { margin: 12px 0; color: var(--text-secondary); font-size: 14px; }
+.content-heading { margin-bottom: 20px; font-size: 26px; color: var(--text-color); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }

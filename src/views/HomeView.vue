@@ -3,7 +3,7 @@
     <div v-if="loading" class="home-loading">
       <el-skeleton :rows="4" animated />
     </div>
-    <el-alert v-else-if="error" :title="error" type="error" show-icon :closable="false" />
+    <LoadError v-else-if="error" :error="error" @retry="load" />
     <el-card v-else class="profile-card" :class="{ 'has-bg': showBg }" shadow="never">
       <template v-if="showBg">
         <video
@@ -28,32 +28,19 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { marked } from 'marked'
-import { fetchJson } from '@/utils/content'
 import { useI18n } from 'vue-i18n'
+import { fetchJson } from '@/utils/content'
+import { useMountedContent } from '@/composables/useContent'
+import LoadError from '@/components/LoadError.vue'
+import { computed } from 'vue'
+import { marked } from 'marked'
 import { showBg } from '@/store/ui'
-
+import { localized } from '@/utils/content-data.mjs'
 const { locale } = useI18n()
-const profile = ref({})
-const loading = ref(true)
-const error = ref('')
-
-const current = computed(() => profile.value[locale.value] || profile.value.zh || {})
-
+const { data: profile, loading, error, load } = useMountedContent(() => fetchJson('/data/profile.json'), {})
+const current = computed(() => localized(profile.value, locale.value))
 const slogan = computed(() => current.value.slogan || '')
 const descHtml = computed(() => marked.parse(current.value.desc || ''))
-
-
-onMounted(async () => {
-  try {
-    profile.value = await fetchJson('/data/profile.json')
-  } catch (e) {
-    error.value = e.message
-  } finally {
-    loading.value = false
-  }
-})
 </script>
 
 <style scoped>

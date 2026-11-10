@@ -1,48 +1,56 @@
 <template>
   <div class="inspiration">
+    <h1 class="content-heading">{{ t('menu.inspiration') }}</h1>
     <div v-if="loading" class="inspiration-loading">
       <el-skeleton :rows="4" animated />
     </div>
-    <el-alert v-else-if="error" :title="error" type="error" show-icon :closable="false" />
+    <LoadError v-else-if="error" :error="error" @retry="load" />
+    <el-empty v-else-if="!inspirations.length" :description="t('msg.empty')" />
     <template v-else>
       <div class="inspiration-grid">
-        <div
-          v-for="item in inspirations"
+        <button
+          type="button"
+          v-for="item in sortedInspirations"
           :key="item.id"
           class="inspiration-card"
+          :aria-label="itemFor(item).title"
           @click="openDialog(item)"
         >
-          <img class="card-image" :src="item.image" :alt="item.title" loading="lazy" />
+          <img class="card-image" :src="item.image" :alt="itemFor(item).title" loading="lazy" />
           <div class="card-footer">
-            <span class="card-title">{{ item.title }}</span>
+            <span class="card-title">{{ itemFor(item).title }}</span>
           </div>
-        </div>
+        </button>
       </div>
     </template>
 
     <el-dialog
       v-model="dialogVisible"
       class="inspiration-dialog"
+      :title="selected ? itemFor(selected).title : t('menu.inspiration')"
       :show-close="false"
       width="min(960px, 94vw)"
       align-center
-      @closed="selected = null"
+      @close="invalidateContent"
     >
       <div v-if="selected" class="dialog-body">
-        <div class="dialog-close" @click="dialogVisible = false" title="关闭">
+        <button type="button" class="dialog-close" @click="dialogVisible = false" :title="t('msg.close')" :aria-label="t('msg.close')">
           <el-icon :size="22"><Close /></el-icon>
-        </div>
+        </button>
         <div class="dialog-image">
-          <img :src="selected.image" :alt="selected.title" />
+          <img :src="selected.image" :alt="itemFor(selected).title" />
         </div>
         <div class="dialog-text">
-          <h2 class="dialog-title">{{ selected.title }}</h2>
-          <p class="dialog-time">{{ selected.time }}</p>
+          <h2 class="dialog-title">{{ itemFor(selected).title }}</h2>
+          <p class="dialog-time">{{ formatDate(selected.time, locale) }}</p>
           <div v-if="contentLoading" class="dialog-content">
             <el-skeleton :rows="4" animated />
           </div>
-          <el-alert v-else-if="contentError" :title="contentError" type="error" show-icon :closable="false" />
-          <div v-else class="dialog-content md-body" v-html="contentHtml"></div>
+          <LoadError v-else-if="contentError" :error="contentError" @retry="loadContent(selected)" />
+          <template v-else>
+            <BodyNotice />
+            <div class="dialog-content md-body" lang="zh-CN" v-html="contentHtml"></div>
+          </template>
         </div>
       </div>
     </el-dialog>
@@ -50,43 +58,27 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { fetchJson } from '@/utils/content'
+import { useMountedContent } from '@/composables/useContent'
+import LoadError from '@/components/LoadError.vue'
+import { ref, computed } from 'vue'
 import { marked } from 'marked'
-import { fetchJson, fetchText } from '@/utils/content'
-
-const inspirations = ref([])
-const loading = ref(true)
-const error = ref('')
+import { fetchText } from '@/utils/content'
+import { useContent } from '@/composables/useContent'
+import { localized, newestFirst, formatDate } from '@/utils/content-data.mjs'
+import BodyNotice from '@/components/BodyNotice.vue'
+const { t, locale } = useI18n()
+const itemFor = item => localized(item, locale.value)
+const { data: inspirations, loading, error, load } = useMountedContent(() => fetchJson('/data/inspirations.json'), [])
+const sortedInspirations = computed(() => newestFirst(inspirations.value, 'time'))
 const dialogVisible = ref(false)
 const selected = ref(null)
-const contentHtml = ref('')
-const contentLoading = ref(false)
-const contentError = ref('')
-
-onMounted(async () => {
-  try {
-    inspirations.value = await fetchJson('/data/inspirations.json')
-  } catch (e) {
-    error.value = e.message
-  } finally {
-    loading.value = false
-  }
-})
-
-const openDialog = async (item) => {
+const { data: contentHtml, loading: contentLoading, error: contentError, load: loadContent, invalidate: invalidateContent } = useContent(async item => marked.parse(await fetchText(item.md)), '')
+function openDialog(item) {
   selected.value = item
   dialogVisible.value = true
-  contentHtml.value = ''
-  contentError.value = ''
-  contentLoading.value = true
-  try {
-    const md = await fetchText(item.md)
-    contentHtml.value = marked.parse(md)
-  } catch (e) {
-    contentError.value = e.message
-  } finally {
-    contentLoading.value = false
-  }
+  loadContent(item)
 }
 </script>
 
@@ -98,6 +90,8 @@ const openDialog = async (item) => {
 }
 
 .inspiration-card {
+  font: inherit;
+  text-align: left;
   background: var(--content-bg);
   border: 1px solid var(--border-color);
   border-radius: 12px;
@@ -136,6 +130,7 @@ const openDialog = async (item) => {
 }
 
 .dialog-close {
+  border: 0;
   position: absolute;
   top: 12px;
   left: 12px;
@@ -216,6 +211,7 @@ const openDialog = async (item) => {
   .dialog-text {
     position: static;
   }
+
 }
 </style>
 
@@ -236,4 +232,8 @@ const openDialog = async (item) => {
   padding: 0;
   height: 520px;
 }
+</style>
+
+<style>
+@media (max-width: 640px) { .inspiration-dialog.el-dialog .el-dialog__body { height: auto; } }
 </style>

@@ -54,6 +54,18 @@ const routes = [
         meta: { titleKey: 'menu.works' }
       },
       {
+        path: 'resources',
+        name: 'resources',
+        component: () => import('../views/ResourcesView.vue'),
+        meta: { titleKey: 'menu.resources' }
+      },
+      {
+        path: 'resources/:collectionId',
+        name: 'resource-collection',
+        component: () => import('../views/ResourcesView.vue'),
+        meta: { titleKey: 'menu.resources' }
+      },
+      {
         path: 'connect',
         name: 'connect',
         component: () => import('../views/ConnectView.vue'),

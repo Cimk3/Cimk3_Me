@@ -14,6 +14,7 @@ async function filesBelow(directory) {
 async function validateContent(projectRoot) {
   const publicRoot = path.join(projectRoot, 'public')
   const { dateValue } = await import(pathToFileURL(path.join(__dirname, '../src/utils/content-data.mjs')))
+  const { validateResources } = await import(pathToFileURL(path.join(__dirname, '../src/utils/resources-data.mjs')))
   const { marked } = await import('marked')
   const errors = []
   const documents = new Map()
@@ -56,13 +57,18 @@ async function validateContent(projectRoot) {
     try { documents.set(source, JSON.parse(await fs.readFile(file, 'utf8'))) }
     catch (error) { report(source, `JSON 格式错误: ${error.message}`) }
   }
-  const required = ['profile', 'home', 'projects', 'posts', 'inspirations', 'works', 'contacts', 'music']
+  const required = ['profile', 'home', 'projects', 'posts', 'inspirations', 'works', 'contacts', 'music', 'resources']
   for (const name of required) {
     const source = `data/${name}.json`
     if (!documents.has(source) && !publicFiles.includes(path.join(publicRoot, source))) report(source, '缺少内容清单')
   }
   for (const [source, data] of documents) {
-    if (source === 'data/profile.json') {
+    if (source === 'data/resources.json') {
+      validateResources(data).forEach(message => report(source, message))
+      if (Array.isArray(data?.collections)) data.collections.forEach((collection, index) => {
+        if (typeof collection?.cover === 'string' && collection.cover) resource(collection.cover, `${source}.collections[${index}].cover`)
+      })
+    } else if (source === 'data/profile.json') {
       if (!object(data)) { report(source, '资料必须为对象'); continue }
       requireText(data.name, `${source}.name`)
       bilingual(data, ['slogan', 'desc'], source, true)
@@ -80,7 +86,9 @@ async function validateContent(projectRoot) {
         const records = lookup && documents.get(`data/${lookup[0]}.json`)
         if (!lookup || !Array.isArray(records) || !records.some(item => item?.[lookup[1]] === entry.refId)) report(at, `推荐入口不存在: ${entry.kind}/${entry.refId}`)
       }
-      const routes = new Set(['/', '/project', '/blog', '/inspiration', '/works', '/connect'])
+      const routes = new Set(['/', '/project', '/blog', '/inspiration', '/works', '/resources', '/connect'])
+      const collections = documents.get('data/resources.json')?.collections
+      if (Array.isArray(collections)) collections.forEach(collection => { if (collection?.id) routes.add(`/resources/${collection.id}`) })
       const posts = documents.get('data/posts.json')
       const works = documents.get('data/works.json')
       if (Array.isArray(posts)) posts.forEach(post => { if (post?.slug) routes.add(`/blog/${post.slug}`) })

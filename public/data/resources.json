@@ -1,0 +1,180 @@
+{
+  "collections": [
+    {
+      "id": "frontend",
+      "category": "study",
+      "title": "前端学习",
+      "description": "从基础文档到框架指南，按需要查阅，也适合作为入门起点。",
+      "cover": "/images/resources/frontend.webp",
+      "updated": "2026-11-11",
+      "en": {
+        "title": "Frontend Learning",
+        "description": "Start with the fundamentals or look up a specific question in the official guides."
+      },
+      "items": [
+        {
+          "id": "mdn",
+          "title": "MDN 学习 Web 开发",
+          "description": "从 HTML、CSS 和 JavaScript 基础开始，适合入门和查漏补缺。",
+          "url": "https://developer.mozilla.org/zh-CN/docs/Learn_web_development",
+          "type": "documentation",
+          "languages": [
+            "zh",
+            "en"
+          ],
+          "en": {
+            "title": "Learn Web Development — MDN",
+            "description": "A structured starting point for HTML, CSS, and JavaScript fundamentals."
+          }
+        },
+        {
+          "id": "vue",
+          "title": "Vue 官方指南",
+          "description": "了解 Vue 的基础概念、组件与常用写法，适合边学边对照示例。",
+          "url": "https://cn.vuejs.org/guide/introduction",
+          "type": "documentation",
+          "languages": [
+            "zh",
+            "en"
+          ],
+          "en": {
+            "title": "Vue Official Guide",
+            "description": "Learn Vue concepts, components, and common patterns alongside examples."
+          }
+        }
+      ]
+    },
+    {
+      "id": "devtools",
+      "category": "study",
+      "title": "实用开发工具",
+      "description": "整理编辑器与版本管理的官方资料，遇到问题时更容易找到入口。",
+      "cover": "/images/resources/devtools.webp",
+      "updated": "2026-11-11",
+      "en": {
+        "title": "Development Tools",
+        "description": "Official references for editing code and managing versions, collected in one place."
+      },
+      "items": [
+        {
+          "id": "vscode",
+          "title": "VS Code 文档",
+          "description": "查看编辑器的基础操作、配置与扩展说明，适合按问题查阅。",
+          "url": "https://code.visualstudio.com/docs",
+          "type": "documentation",
+          "languages": [
+            "en"
+          ],
+          "en": {
+            "title": "VS Code Documentation",
+            "description": "Find the editor’s setup instructions, features, configuration, and extension guides."
+          }
+        },
+        {
+          "id": "pro-git",
+          "title": "Pro Git 中文版",
+          "description": "从基本操作到分支与协作，系统了解 Git 的使用方式。",
+          "url": "https://git-scm.com/book/zh/v2",
+          "type": "documentation",
+          "languages": [
+            "zh",
+            "en"
+          ],
+          "en": {
+            "title": "Pro Git",
+            "description": "A structured introduction to Git, from everyday commands to branches and collaboration."
+          }
+        }
+      ]
+    },
+    {
+      "id": "minecraft",
+      "category": "game",
+      "title": "Minecraft 创作",
+      "description": "基岩版附加包的创作资料与官方示例，适合学习和对照结构。",
+      "cover": "/images/resources/minecraft.webp",
+      "updated": "2026-11-11",
+      "en": {
+        "title": "Minecraft Creation",
+        "description": "Documentation and official examples for creating Minecraft Bedrock add-ons."
+      },
+      "items": [
+        {
+          "id": "creator-docs",
+          "title": "基岩版创作者文档",
+          "description": "了解资源包、行为包和自定义内容的制作方式，适合从入门指南开始。",
+          "url": "https://learn.microsoft.com/zh-cn/minecraft/creator/",
+          "type": "documentation",
+          "languages": [
+            "zh",
+            "en"
+          ],
+          "en": {
+            "title": "Bedrock Creator Documentation",
+            "description": "Start with guides to resource packs, behavior packs, and custom content."
+          },
+          "edition": "bedrock"
+        },
+        {
+          "id": "bedrock-samples",
+          "title": "Mojang 官方示例",
+          "description": "查看基岩版附加包的示例与资源结构，适合与官方文档配合阅读。",
+          "url": "https://github.com/Mojang/bedrock-samples",
+          "type": "sample",
+          "languages": [
+            "en"
+          ],
+          "en": {
+            "title": "Mojang Bedrock Samples",
+            "description": "Explore sample add-on assets and structures alongside the creator documentation."
+          },
+          "edition": "bedrock"
+        }
+      ]
+    },
+    {
+      "id": "game-tools",
+      "category": "game",
+      "title": "游戏实用工具",
+      "description": "收集游戏启动与模组管理入口，使用前可先阅读原作者说明。",
+      "cover": "/images/resources/game-tools.webp",
+      "updated": "2026-11-11",
+      "en": {
+        "title": "Game Utilities",
+        "description": "Launchers and mod-management tools, with direct links to their developers."
+      },
+      "items": [
+        {
+          "id": "prism",
+          "title": "Prism Launcher",
+          "description": "在不同实例间组织 Minecraft 与模组配置，功能与安装方式以原作者说明为准。",
+          "url": "https://prismlauncher.org/",
+          "type": "tool",
+          "languages": [
+            "en"
+          ],
+          "en": {
+            "title": "Prism Launcher",
+            "description": "Organize Minecraft instances and mod configurations. Check the developer’s guidance before installing."
+          },
+          "edition": "java"
+        },
+        {
+          "id": "modrinth",
+          "title": "Modrinth App",
+          "description": "浏览和管理模组与整合包，入口指向原作者提供的应用页面。",
+          "url": "https://modrinth.com/app",
+          "type": "tool",
+          "languages": [
+            "en"
+          ],
+          "en": {
+            "title": "Modrinth App",
+            "description": "Discover and manage mods and modpacks through the developer’s app page."
+          },
+          "edition": "java"
+        }
+      ]
+    }
+  ]
+}

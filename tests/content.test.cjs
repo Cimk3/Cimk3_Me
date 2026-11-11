@@ -16,6 +16,7 @@ async function fixture(t) {
   const post = { slug: 'hello', title: '你好', summary: '摘要', date: '2026-11-10T08:00:00+08:00', md: '/blog/hello.md', en: { title: 'Hello', summary: 'Summary' } }
   await write('data/profile.json', { name: 'Test', avatar: '/images/avatar.png', zh: { slogan: '你好', desc: '简介' }, en: { slogan: 'Hi', desc: 'About' } })
   await write('data/home.json', { featured: [], updates: [] })
+  await write('data/resources.json', { collections: [] })
   for (const list of ['projects', 'inspirations', 'works', 'contacts', 'music']) await write(`data/${list}.json`, [])
   await write('data/posts.json', [post])
   await write('blog/hello.md', '# Hello\n\n![image](/images/avatar.png)')
@@ -167,4 +168,15 @@ test('featured entries reuse canonical titles and preserve existing routes', asy
   assert.equal(entries[0].record, post)
   assert.equal(entries[0].to, '/blog/hello')
   assert.throws(() => resolveFeatured([{ kind: 'post', refId: 'gone' }], { posts: [] }), /Unknown featured/)
+})
+
+test('resource covers are checked and malformed catalogues fail content validation', async t => {
+  const f = await fixture(t)
+  await f.write('data/resources.json', { collections: [{
+    id: 'learning', category: 'study', title: '学习', description: '资料', en: { title: 'Learning', description: 'References' },
+    cover: '/images/missing-cover.webp', updated: '2026-11-11', items: []
+  }] })
+  assert.match((await f.check()).errors.join('\n'), /资源缺失.*missing-cover.webp/)
+  await f.write('data/resources.json', { collections: [null] })
+  assert.match((await f.check()).errors.join('\n'), /合集必须为对象/)
 })

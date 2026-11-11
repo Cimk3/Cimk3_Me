@@ -1,5 +1,5 @@
 <template>
-    <div class="layout">
+    <div class="layout" @keydown.esc="menuOpen = false">
         <!-- 移动端菜单按钮 + 遮罩 -->
         <button type="button" class="menu-btn" :class="{ open: menuOpen }" :aria-label="t(menuOpen ? 'tooltip.closeMenu' : 'tooltip.menu')" :aria-expanded="menuOpen" aria-controls="site-sidebar" @click="menuOpen = !menuOpen">
             <el-icon :size="20">
@@ -13,7 +13,7 @@
             <div class="logo">
                 <img class="logo-avatar" src="/images/LayoutHead.png" alt="Cimk3" />
             </div>
-            <el-menu :default-active="activeMenu" class="sidebar-menu" router background-color="transparent">
+            <el-menu :default-active="activeMenu" class="sidebar-menu" router background-color="transparent" @select="menuOpen = false">
                 <el-menu-item v-for="item in menus" :key="item.path" :index="item.path">
                     <el-icon>
                         <component :is="item.icon" />
@@ -78,6 +78,7 @@ const menus = computed(() => [
     { path: '/blog', name: t('menu.blog'), icon: 'Notebook' },
     { path: '/inspiration', name: t('menu.inspiration'), icon: 'Star' },
     { path: '/works', name: t('menu.works'), icon: 'Reading' },
+    { path: '/resources', name: t('menu.resources'), icon: 'Collection' },
     { path: '/connect', name: t('menu.connect'), icon: 'ChatDotRound' }
 ])
 
@@ -90,6 +91,7 @@ const toggleLocale = () => {
 const activeMenu = computed(() => {
     if (route.path.startsWith('/blog')) return '/blog'
     if (route.path.startsWith('/works')) return '/works'
+    if (route.path === '/resources' || route.path.startsWith('/resources/')) return '/resources'
     return route.path
 })
 
@@ -145,11 +147,47 @@ const contentBgStyle = {
 }
 
 .sidebar-footer {
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 4px;
     padding: 12px 8px;
+}
+
+.sidebar-menu {
+    min-height: 0;
+    overflow-y: auto;
+    padding: 10px 12px;
+}
+
+.sidebar-menu :deep(.el-menu-item) {
+    position: relative;
+    height: 52px;
+    margin-bottom: 4px;
+    padding: 0 16px !important;
+    border-radius: 10px;
+    color: var(--text-color);
+    font-size: 16px;
+}
+
+.sidebar-menu :deep(.el-menu-item:hover) {
+    background: var(--el-color-primary-light-9);
+}
+
+.sidebar-menu :deep(.el-menu-item.is-active) {
+    color: var(--link-color);
+    background: var(--el-color-primary-light-9);
+    font-weight: 600;
+}
+
+.sidebar-menu :deep(.el-menu-item.is-active::before) {
+    content: '';
+    position: absolute;
+    inset: 8px auto 8px 0;
+    width: 3px;
+    border-radius: 3px;
+    background: var(--el-color-primary);
 }
 
 /* 统一的底部按钮样式 */
@@ -244,15 +282,17 @@ const contentBgStyle = {
 
     .sidebar {
         position: fixed;
+        visibility: hidden;
         top: 0;
         left: 0;
         bottom: 0;
         z-index: 1001;
         transform: translateX(-100%);
-        transition: transform 0.25s ease;
+        transition: transform 0.25s ease, visibility 0.25s ease;
     }
 
     .sidebar.menu-open {
+        visibility: visible;
         transform: translateX(0);
     }
 

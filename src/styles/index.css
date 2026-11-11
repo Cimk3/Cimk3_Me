@@ -12,6 +12,7 @@
     --border-color: #e4e7ed;
     --sidebar-overlay: rgba(255, 255, 255, 0.6);
     --content-overlay: rgba(255, 255, 255, 0.75);
+    --link-color: #1269bd;
 }
 
 html.dark {
@@ -22,12 +23,14 @@ html.dark {
   --border-color: #3a3a3a;
   --sidebar-overlay: rgba(0, 0, 0, 0.5);
   --content-overlay: rgba(0, 0, 0, 0.55);
+  --link-color: #79bbff;
   color-scheme: dark; /* 让滚动条、输入控件等跟随暗色 */
 }
 
 .layout {
   display: flex;
   height: 100vh;
+  height: 100dvh;
 }
 
 .sidebar {
@@ -42,6 +45,7 @@ html.dark {
 
 .logo {
   height: 90px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;

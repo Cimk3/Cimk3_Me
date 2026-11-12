@@ -101,6 +101,10 @@ usePageTitle(() => error.value ? t('error.title') : loading.value ? t('menu.work
   border-radius: 14px;
 }
 
+.chapter-content :deep(p) {
+  font-family: "宋体", SimSun, serif;
+}
+
 .chapter-nav {
   display: flex;
   justify-content: space-between;

@@ -18,5 +18,15 @@
       "title": "Heaven and Humanity as One · Prequel",
       "description": "My first cultivation novel."
     }
+  },
+  {
+    "id": "bei_chen_an",
+    "title": "北辰案",
+    "cover": "/images/works/北辰案.png",
+    "description": "一宗工程调查牵出北辰投资的资金与前朝旧账，皇帝假扮钦差大臣与人工智能助手江禾沿着证据追查真相，粉碎政变阴谋。",
+    "en": {
+      "title": "The Beichen Case",
+      "description": "An investigation into a construction project uncovers Beichen Investment’s financial dealings and past transfers of authority. An imperial envoy and Jiang He follow the evidence."
+    }
   }
 ]

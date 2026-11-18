@@ -2,7 +2,7 @@
   {
     "id": "ru_nian",
     "title": "如念",
-    "cover": "images/works/ru_nian.png",
+    "cover": "/images/works/ru_nian-thumb.webp",
     "description": "作品的一个前瞻,也算是特别篇",
     "en": {
       "title": "Ru Nian",
@@ -12,7 +12,7 @@
   {
     "id": "trhy_p",
     "title": "天人合一·前传",
-    "cover": "images/works/trhy_p.png",
+    "cover": "/images/works/trhy_p-thumb.webp",
     "description": "第一本修仙小说",
     "en": {
       "title": "Heaven and Humanity as One · Prequel",
@@ -22,7 +22,7 @@
   {
     "id": "bei_chen_an",
     "title": "北辰案",
-    "cover": "/images/works/北辰案.png",
+    "cover": "/images/works/bei_chen_an-thumb.webp",
     "description": "一宗工程调查牵出北辰投资的资金与前朝旧账，皇帝假扮钦差大臣与人工智能助手江禾沿着证据追查真相，粉碎政变阴谋。",
     "en": {
       "title": "The Beichen Case",

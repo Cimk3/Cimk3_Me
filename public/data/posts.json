@@ -53,5 +53,16 @@
       "title": "The Beichen Case: An Investigation Begins with the Qingyun Project",
       "summary": "The Beichen Case joins the works collection with eight chapters, from Reassignment to The Emperor’s Move."
     }
+  },
+  {
+    "slug": "operation-iron-rain-site-update",
+    "title": "《代号：铁雨》开放试玩，个人站加载优化",
+    "date": "2026-11-19T00:09:48+08:00",
+    "summary": "新游戏可以在浏览器里试玩。个人站也压缩了作品集封面，并减少了首次打开页面时需要加载的脚本。",
+    "md": "/blog/operation-iron-rain-site-update.md",
+    "en": {
+      "title": "Play Operation // Iron Rain online and load the site with less data",
+      "summary": "Try the new browser game. The site also has smaller work covers and a smaller initial JavaScript download."
+    }
   }
 ]

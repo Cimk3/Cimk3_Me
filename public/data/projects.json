@@ -1,5 +1,30 @@
 [
   {
+    "id": "operation-iron-rain",
+    "zh": {
+      "title": "代号：铁雨",
+      "description": "一款可以在浏览器里玩的第一人称 PvE 射击游戏。两关分别设在雨夜林地和地下设施。",
+      "tags": ["TypeScript", "Three.js", "Web Audio API"],
+      "highlights": [
+        "场景、模型和音效由程序生成",
+        "可在 3D 预览中旋转、缩放模型并查看配件变化"
+      ]
+    },
+    "en": {
+      "title": "Operation // Iron Rain",
+      "description": "A first-person PvE shooter playable in the browser, with levels set in rainy woodland and an underground facility.",
+      "tags": ["TypeScript", "Three.js", "Web Audio API"],
+      "highlights": [
+        "Procedurally generated environments, models, and sound",
+        "Rotate and zoom the 3D preview to see attachment changes"
+      ]
+    },
+    "links": [
+      { "kind": "demo", "href": "https://cimk3.github.io/OperationIronRain/" },
+      { "kind": "source", "href": "https://github.com/Cimk3/OperationIronRain" }
+    ]
+  },
+  {
     "zh": {
       "title": "墨记",
       "description": "把随手记下的内容和待办放在一起，默认保存在手机本地。",

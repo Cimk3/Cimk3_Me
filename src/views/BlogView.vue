@@ -1,6 +1,6 @@
 <template>
-  <div class="blog">
-    <h1 class="content-heading">{{ t('menu.blog') }}</h1>
+  <div class="blog catalog-page">
+    <header class="catalog-header"><h1>{{ t('menu.blog') }}</h1></header>
     <div v-if="loading" class="blog-loading">
       <el-skeleton :rows="3" animated />
     </div>
@@ -17,7 +17,7 @@
           <router-link :to="`/blog/${post.slug}`" class="post-link">
             <el-card shadow="hover">
               <h3>{{ postFor(post).title }}</h3>
-              <p class="post-summary">{{ postFor(post).summary }}</p>
+              <p class="post-summary catalog-summary">{{ postFor(post).summary }}</p>
             </el-card>
           </router-link>
         </el-timeline-item>
@@ -66,8 +66,11 @@ const pagedPosts = computed(() => newestFirst(posts.value).slice((currentPage.va
 
 .post-summary {
   margin-top: 8px;
-  color: var(--text-secondary);
-  font-size: 14px;
+}
+
+.blog :deep(.el-timeline-item__timestamp) {
+  color: var(--catalog-muted);
+  font-size: var(--catalog-meta-size);
 }
 
 .blog-pagination {

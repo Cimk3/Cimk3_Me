@@ -1,6 +1,6 @@
 <template>
-  <div class="connect">
-    <h1 class="content-heading">{{ t('menu.connect') }}</h1>
+  <div class="catalog-page">
+    <header class="catalog-header"><h1>{{ t('menu.connect') }}</h1></header>
     <el-skeleton v-if="loading" :rows="3" animated />
     <LoadError v-else-if="error" :error="error" @retry="load" />
     <el-empty v-else-if="!contacts.length" :description="t('msg.empty')" />
@@ -36,13 +36,8 @@ async function handleCopy(contact) {
 </script>
 
 <style scoped>
-.connect {
-  max-width: 640px;
-  margin: 0 auto;
-  width: 100%;
-}
-
 .contact-item {
+  max-width: 640px;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -65,7 +60,7 @@ async function handleCopy(contact) {
 .contact-label {
   width: 80px;
   flex-shrink: 0;
-  color: var(--text-secondary);
+  color: var(--catalog-muted);
 }
 
 .contact-value {

@@ -27,6 +27,17 @@
   ],
   "updates": [
     {
+      "id": "iron-rain-site-update",
+      "date": "2026-11-19",
+      "title": "《代号：铁雨》开放试玩",
+      "description": "项目页加入试玩入口，网站也缩小了作品集封面和入口脚本的体积。",
+      "to": "/blog/operation-iron-rain-site-update",
+      "en": {
+        "title": "Play Operation // Iron Rain online",
+        "description": "The project has a browser demo, and the site now loads smaller covers and startup scripts."
+      }
+    },
+    {
       "id": "homepage-reading",
       "date": "2026-11-10",
       "title": "整理主页的浏览入口",

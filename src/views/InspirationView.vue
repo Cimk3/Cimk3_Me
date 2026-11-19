@@ -1,6 +1,6 @@
 <template>
-  <div class="inspiration">
-    <h1 class="content-heading">{{ t('menu.inspiration') }}</h1>
+  <div class="catalog-page">
+    <header class="catalog-header"><h1>{{ t('menu.inspiration') }}</h1></header>
     <div v-if="loading" class="inspiration-loading">
       <el-skeleton :rows="4" animated />
     </div>

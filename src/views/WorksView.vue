@@ -1,6 +1,6 @@
 <template>
-  <div class="works">
-    <h1 class="content-heading">{{ t('menu.works') }}</h1>
+  <div class="catalog-page">
+    <header class="catalog-header"><h1>{{ t('menu.works') }}</h1></header>
     <div v-if="loading" class="works-loading">
       <el-skeleton :rows="4" animated />
     </div>
@@ -11,7 +11,7 @@
         <img class="work-cover" :src="w.cover" :alt="workFor(w).title" loading="lazy" />
         <div class="work-info">
           <h3>{{ workFor(w).title }}</h3>
-          <p class="work-desc">{{ workFor(w).description }}</p>
+          <p class="work-desc catalog-summary">{{ workFor(w).description }}</p>
         </div>
       </router-link>
     </div>
@@ -71,8 +71,5 @@ const { data: works, loading, error, load } = useMountedContent(() => fetchJson(
 
 .work-desc {
   margin: 0;
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--text-secondary);
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
-  <div class="resources-page">
+  <div class="resources-page catalog-page">
     <router-link v-if="isDetail" class="resources-back" :to="{ name: 'resources', query: route.query }">
       <el-icon aria-hidden="true"><ArrowLeft /></el-icon>{{ t('resources.back') }}
     </router-link>
-    <header class="resources-header">
+    <header class="catalog-header">
       <h1>{{ heading }}</h1>
       <p v-if="!isDetail">{{ t('resources.intro') }}</p>
       <p v-else-if="currentCollection">{{ localized(currentCollection, locale).description }}</p>
@@ -26,7 +26,7 @@
         </div>
       </div>
 
-      <div v-if="isDetail && currentCollection" class="detail-summary">
+      <div v-if="isDetail && currentCollection" class="detail-summary catalog-meta">
         <span>{{ t('resources.count', { count: currentCollection.items.length }) }}</span>
         <span>{{ t('resources.updated', { date: formatDate(currentCollection.updated, locale) }) }}</span>
       </div>
@@ -40,9 +40,9 @@
             </router-link>
             <div class="collection-copy">
               <h2><router-link :to="collectionLink(collection)">{{ localized(collection, locale).title }}</router-link></h2>
-              <p>{{ localized(collection, locale).description }}</p>
+              <p class="catalog-summary">{{ localized(collection, locale).description }}</p>
               <div class="collection-footer">
-                <div class="collection-meta"><span>{{ t('resources.count', { count: collection.items.length }) }}</span><span>{{ t('resources.updated', { date: formatDate(collection.updated, locale) }) }}</span></div>
+                <div class="collection-meta catalog-meta"><span>{{ t('resources.count', { count: collection.items.length }) }}</span><span>{{ t('resources.updated', { date: formatDate(collection.updated, locale) }) }}</span></div>
                 <router-link class="resource-text-action" :to="collectionLink(collection)">{{ t('resources.view') }}<el-icon aria-hidden="true"><Right /></el-icon></router-link>
               </div>
             </div>
@@ -104,15 +104,9 @@ usePageTitle(() => error.value ? t('error.title') : isDetail.value && currentCol
 .resources-page {
   --resource-secondary: #717784;
   font-family: "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 32px 8px 4px;
   color: var(--text-color);
 }
 html.dark .resources-page { --resource-secondary: #a3a6ad; }
-.resources-header { margin-bottom: 40px; }
-.resources-header h1 { font-size: 42px; line-height: 1.4; margin-bottom: 12px; overflow-wrap: anywhere; }
-.resources-header p { font-size: 18px; line-height: 1.8; color: var(--resource-secondary); max-width: 800px; }
 .resources-toolbar { display: flex; align-items: center; gap: 26px; margin-bottom: 32px; }
 .resource-search { display: flex; align-items: center; gap: 12px; width: min(100%, 540px); min-width: 0; padding: 0 16px; height: 46px; border: 1px solid var(--border-color); border-radius: 10px; background: var(--content-bg); color: var(--resource-secondary); }
 .resource-search:focus-within { border-color: var(--link-color); box-shadow: 0 0 0 2px var(--el-color-primary-light-9); }
@@ -131,9 +125,9 @@ html.dark .resources-page { --resource-secondary: #a3a6ad; }
 .collection-copy h2 { font-size: 22px; line-height: 1.5; margin-bottom: 8px; overflow-wrap: anywhere; }
 .collection-copy h2 a { color: inherit; text-decoration: none; }
 .collection-copy h2 a:hover { color: var(--link-color); }
-.collection-copy p { min-height: 3.4em; font-size: 16px; line-height: 1.7; color: var(--text-color); overflow-wrap: anywhere; }
+.collection-copy p { min-height: 3.4em; overflow-wrap: anywhere; }
 .collection-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
-.collection-meta, .detail-summary { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--resource-secondary); font-size: 13px; line-height: 1.7; }
+.collection-meta, .detail-summary { display: flex; flex-wrap: wrap; gap: 6px 14px; }
 .resource-text-action { display: inline-flex; align-items: center; gap: 6px; color: var(--link-color); text-decoration: none; white-space: nowrap; font-size: 14px; }
 .resource-text-action:hover { text-decoration: underline; text-underline-offset: 4px; }
 .resources-footnote { margin-top: 26px; text-align: right; font-size: 12px; line-height: 1.8; color: var(--resource-secondary); }
@@ -142,6 +136,6 @@ html.dark .resources-page { --resource-secondary: #a3a6ad; }
 .detail-summary { margin-bottom: 4px; }
 .search-count { color: var(--resource-secondary); font-size: 14px; margin-bottom: 4px; }
 @media (max-width: 1100px) { .resources-toolbar { gap: 16px; } .resource-categories button { min-width: 60px; padding: 9px 14px; } }
-@media (max-width: 900px) { .resources-header { margin-bottom: 26px; } .resources-header h1 { font-size: 34px; } .resource-collections { grid-template-columns: minmax(0, 1fr); } .resources-toolbar { align-items: stretch; flex-direction: column; } .resource-search { width: 100%; } }
-@media (max-width: 480px) { .resources-page { padding: 8px 0; } .resources-header h1 { font-size: 28px; } .resources-header p { font-size: 15px; } .collection-copy h2 { font-size: 20px; } .collection-copy { padding: 14px 4px 18px; } .resources-footnote { text-align: left; } }
+@media (max-width: 900px) { .resource-collections { grid-template-columns: minmax(0, 1fr); } .resources-toolbar { align-items: stretch; flex-direction: column; } .resource-search { width: 100%; } }
+@media (max-width: 480px) { .collection-copy h2 { font-size: 20px; } .collection-copy { padding: 14px 4px 18px; } .resources-footnote { text-align: left; } }
 </style>

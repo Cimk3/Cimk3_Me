@@ -6,7 +6,7 @@
     <el-empty v-else-if="!projects.length" :description="t('msg.empty')" />
     <template v-else>
       <div class="project-list">
-        <article v-for="project in visibleProjects" :key="project.id" class="project-card" :class="{ 'is-featured': project.id === featuredId }">
+        <article v-for="project in visibleProjects" :key="project.id" :id="`project-${project.id}`" class="project-card" :class="{ 'is-featured': project.id === featuredId }">
           <div v-if="project.id === featuredId" class="project-cover">
             <img v-if="!coverFailed" src="/images/operation-iron-rain.webp" :alt="t('project.ironRainCover')"
               width="1280" height="720" fetchpriority="high" @error="coverFailed = true" />
@@ -51,7 +51,8 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
+import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { fetchJson } from '@/utils/content'
 import { localized } from '@/utils/content-data.mjs'
@@ -65,6 +66,16 @@ const otherProjects = computed(() => projects.value.filter(project => project.id
 const coverFailed = ref(false)
 const pageSize = 6
 const currentPage = ref(1)
+const route = useRoute()
+watch([projects, () => route.query.project], async () => {
+  const selected = projects.value.find(project => project.id === route.query.project)
+  if (!selected) return
+  if (selected.id !== featuredId) {
+    currentPage.value = Math.floor(otherProjects.value.findIndex(project => project.id === selected.id) / pageSize) + 1
+  }
+  await nextTick()
+  document.getElementById(`project-${selected.id}`)?.scrollIntoView({ block: 'start' })
+}, { immediate: true })
 const visibleProjects = computed(() => {
   const start = (currentPage.value - 1) * pageSize
   const page = otherProjects.value.slice(start, start + pageSize)

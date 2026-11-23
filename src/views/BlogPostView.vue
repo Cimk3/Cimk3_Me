@@ -1,6 +1,6 @@
 <template>
   <div class="blog-post">
-    <router-link to="/blog" class="back-btn">
+    <router-link :to="{ path: '/blog', query: route.query }" class="back-btn">
       <el-icon :size="16"><Icon icon="mdi:arrow-left" /></el-icon>
       <span>{{ t('msg.back') }}</span>
     </router-link>
@@ -31,7 +31,8 @@ import { usePageTitle } from '@/composables/usePageTitle'
 import LoadError from '@/components/LoadError.vue'
 import BodyNotice from '@/components/BodyNotice.vue'
 const { t, locale } = useI18n()
-const slug = useRoute().params.slug
+const route = useRoute()
+const slug = route.params.slug
 const { data, loading, error, load } = useMountedContent(async () => {
   const posts = await fetchJson('/data/posts.json')
   const post = posts.find(item => item.slug === slug)

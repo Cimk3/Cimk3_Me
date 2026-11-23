@@ -13,13 +13,27 @@
             <div class="logo">
                 <img class="logo-avatar" src="/images/LayoutHead.png" alt="Cimk3" />
             </div>
-            <el-menu :default-active="activeMenu" class="sidebar-menu" router background-color="transparent" @select="menuOpen = false">
-                <el-menu-item v-for="item in menus" :key="item.path" :index="item.path">
-                    <el-icon>
-                        <component :is="item.icon" />
-                    </el-icon>
-                    <span>{{ item.name }}</span>
-                </el-menu-item>
+            <el-menu :default-active="activeMenu" :default-openeds="['inspiration-group']" class="sidebar-menu" router background-color="transparent" @select="menuOpen = false">
+                <template v-for="item in menus" :key="item.path">
+                    <el-sub-menu v-if="item.path === '/inspiration'" index="inspiration-group">
+                        <template #title>
+                            <el-icon><Star /></el-icon>
+                            <span>{{ item.name }}</span>
+                        </template>
+                        <el-menu-item index="/inspiration">
+                            <el-icon><Picture /></el-icon>
+                            <span>{{ t('menu.inspirationGallery') }}</span>
+                        </el-menu-item>
+                        <el-menu-item index="/sparks">
+                            <el-icon><Icon :icon="sparkIcon" /></el-icon>
+                            <span>{{ t('menu.sparks') }}</span>
+                        </el-menu-item>
+                    </el-sub-menu>
+                    <el-menu-item v-else :index="item.path">
+                        <el-icon><component :is="item.icon" /></el-icon>
+                        <span>{{ item.name }}</span>
+                    </el-menu-item>
+                </template>
             </el-menu>
             <div class="sidebar-footer">
                 <button type="button" class="footer-btn music-control" :class="{ playing }" @click="togglePlay"
@@ -59,6 +73,7 @@
 import { useRoute } from 'vue-router'
 import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { Picture } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { useMusic } from '@/composables/useMusic'
 import { showBg } from '@/store/ui'
@@ -70,6 +85,12 @@ const contentEl = ref(null)
 const { playing, playPending, currentSrc, togglePlay, nextTrack, onAudioError } = useMusic(audioEl)
 function saveSetting(key, value) {
     try { localStorage.setItem(key, value) } catch { ElMessage.warning(t('msg.saveFailed')) }
+}
+
+// Inline icon data keeps the sparkle available without an external icon request.
+const sparkIcon = {
+    width: 24, height: 24,
+    body: '<path fill="currentColor" d="m14 3 2.5 6.5L23 12l-6.5 2.5L14 21l-2.5-6.5L5 12l6.5-2.5L14 3ZM4 2l1.1 2.9L8 6 5.1 7.1 4 10 2.9 7.1 0 6l2.9-1.1L4 2ZM4 16l.8 2.2L7 19l-2.2.8L4 22l-.8-2.2L1 19l2.2-.8L4 16Z"/>'
 }
 
 const menus = computed(() => [
@@ -160,6 +181,20 @@ const contentBgStyle = {
     overflow-y: auto;
     padding: 10px 12px;
 }
+
+.sidebar-menu :deep(.el-sub-menu__title) {
+    height: 52px;
+    margin-bottom: 4px;
+    padding-left: 16px !important;
+    border-radius: 10px;
+    color: var(--text-color);
+    font-size: 16px;
+}
+
+.sidebar-menu :deep(.el-sub-menu__title:hover) { background: var(--el-color-primary-light-9); }
+.sidebar-menu :deep(.el-sub-menu.is-active > .el-sub-menu__title) { color: var(--link-color); }
+.sidebar-menu :deep(.el-sub-menu .el-menu) { background: transparent; }
+.sidebar-menu :deep(.el-sub-menu .el-menu-item) { min-width: 0; padding-left: 32px !important; }
 
 .sidebar-menu :deep(.el-menu-item) {
     position: relative;

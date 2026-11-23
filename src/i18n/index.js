@@ -2,10 +2,12 @@ import { createI18n } from 'vue-i18n'
 
 export const messages = {
   zh: {
-    menu: { home: '主页', project: '项目', blog: '文章', inspiration: '灵感', works: '作品集', resources: '资源', connect: '联系我' },
+    blog: { topics: '按专题浏览', archive: '文章归档', search: '搜索文章', searchPlaceholder: '搜索标题或摘要', category: '分类', year: '年份', allCategories: '全部分类', allYears: '全部年份', reset: '重置', noResults: '没有找到符合条件的文章', resultCount: '{count} 篇文章', topicCount: '{count} 项内容', back: '返回全部文章', topicMissing: '没有找到这个专题', categories: { technical: '技术', essay: '随笔', announcement: '公告' }, kinds: { post: '文章', project: '项目', resource: '资源合集' } },
+    menu: { home: '主页', project: '项目', blog: '文章', inspiration: '灵感', inspirationGallery: '灵感画廊', sparks: 'Sparks', works: '作品集', resources: '资源', connect: '联系我' },
     tooltip: { next: '下一首', theme: '切换主题', lang: '切换语言', background: '切换背景', play: '播放音乐', pause: '暂停音乐', menu: '打开菜单', closeMenu: '关闭菜单' },
     msg: { copied: '已复制', copyFailed: '复制失败，请选中联系方式手动复制。', open: '打开链接', back: '返回', noPrev: '已是第一章', noNext: '已是最后一章', retry: '重试', close: '关闭', empty: '暂时没有内容', loading: '正在加载', chineseBody: '正文为中文。', saveFailed: '设置已生效，但未能保存，下次打开可能需要重新选择。' },
     home: { featured: '从这里开始', featuredIntro: '挑一个感兴趣的入口，慢慢逛。', recent: '最近在做', recentIntro: '记录最近整理和完善的事情。', project: '项目', post: '文章', work: '小说', current: '近期推荐', viewProject: '查看项目' },
+    sparks: { empty: '还没有发布 Spark。' },
     chapter: { directory: '返回目录', navigation: '章节切换', previous: '上一章', next: '下一章' },
     novel: { guide: '阅读前说明', genre: '题材', relation: '故事之间', order: '怎样开始', available: '站内已收录 {count} 章正文', latest: '目录末章', guideUpdated: '阅读说明更新于', start: '从正文开始', related: '看看另一篇故事' },
     project: {
@@ -28,10 +30,12 @@ export const messages = {
     error: { title: '加载失败', network: '网络连接失败，请检查网络后重试。', notFound: '请求的内容不存在。', http: '内容加载失败（HTTP {status}），请稍后重试。', json: '内容数据格式错误，请稍后重试。', unknown: '内容加载失败，请重试。' }
   },
   en: {
-    menu: { home: 'Home', project: 'Projects', blog: 'Blog', inspiration: 'Inspiration', works: 'Works', resources: 'Resources', connect: 'Contact' },
+    blog: { topics: 'Browse by topic', archive: 'Article archive', search: 'Search articles', searchPlaceholder: 'Search titles or summaries', category: 'Category', year: 'Year', allCategories: 'All categories', allYears: 'All years', reset: 'Reset', noResults: 'No matching articles', resultCount: '{count} articles', topicCount: '{count} items', back: 'All articles', topicMissing: 'Topic not found', categories: { technical: 'Technical', essay: 'Essays', announcement: 'Announcements' }, kinds: { post: 'Article', project: 'Project', resource: 'Resource collection' } },
+    menu: { home: 'Home', project: 'Projects', blog: 'Blog', inspiration: 'Inspiration', inspirationGallery: 'Gallery', sparks: 'Sparks', works: 'Works', resources: 'Resources', connect: 'Contact' },
     tooltip: { next: 'Next track', theme: 'Toggle theme', lang: 'Switch language', background: 'Toggle background', play: 'Play music', pause: 'Pause music', menu: 'Open menu', closeMenu: 'Close menu' },
     msg: { copied: 'Copied', copyFailed: 'Could not copy. Select the contact details and copy them manually.', open: 'Open link', back: 'Back', noPrev: 'First chapter', noNext: 'Last chapter', retry: 'Retry', close: 'Close', empty: 'No content yet', loading: 'Loading', chineseBody: 'The body text is in Chinese.', saveFailed: 'Your setting is active but could not be saved. You may need to select it again next time.' },
     home: { featured: 'Start here', featuredIntro: 'Choose something that catches your interest.', recent: 'What I’ve been working on', recentIntro: 'Recent additions and improvements.', project: 'Project', post: 'Article', work: 'Fiction', current: 'Featured now', viewProject: 'View project' },
+    sparks: { empty: 'No sparks published yet.' },
     chapter: { directory: 'Back to contents', navigation: 'Chapter navigation', previous: 'Previous chapter', next: 'Next chapter' },
     novel: { guide: 'Before you read', genre: 'Genre', relation: 'How the stories connect', order: 'Where to start', available: '{count} story chapters available', latest: 'Last chapter in the directory', guideUpdated: 'Reading guide updated', start: 'Start the story', related: 'Explore the related story' },
     project: {

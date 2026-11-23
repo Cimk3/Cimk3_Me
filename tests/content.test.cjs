@@ -17,7 +17,7 @@ async function fixture(t) {
   await write('data/profile.json', { name: 'Test', avatar: '/images/avatar.png', zh: { slogan: '你好', desc: '简介' }, en: { slogan: 'Hi', desc: 'About' } })
   await write('data/home.json', { featured: [], updates: [] })
   await write('data/resources.json', { collections: [] })
-  for (const list of ['projects', 'inspirations', 'works', 'contacts', 'music']) await write(`data/${list}.json`, [])
+  for (const list of ['projects', 'inspirations', 'works', 'contacts', 'music', 'sparks', 'topics']) await write(`data/${list}.json`, [])
   await write('data/posts.json', [post])
   await write('blog/hello.md', '# Hello\n\n![image](/images/avatar.png)')
   await write('images/avatar.png', 'fixture')
@@ -179,4 +179,64 @@ test('resource covers are checked and malformed catalogues fail content validati
   assert.match((await f.check()).errors.join('\n'), /资源缺失.*missing-cover.webp/)
   await f.write('data/resources.json', { collections: [null] })
   assert.match((await f.check()).errors.join('\n'), /合集必须为对象/)
+})
+
+
+test('Spark content validates optional titles, duplicate IDs, dates and missing bodies', async t => {
+  const f = await fixture(t)
+  const spark = { id: 'note', date: '2026-11-23T20:00:00+08:00', md: '/sparks/note.md' }
+  await f.write('data/sparks.json', [spark])
+  await f.write('sparks/note.md', 'A thought.\n\n**More** text.')
+  assert.deepEqual((await f.check()).errors, [])
+  await f.write('data/sparks.json', [spark, { ...spark, date: '2026-02-30T20:00:00+08:00', title: 42, md: '/sparks/missing.md' }])
+  const errors = (await f.check()).errors.join('\n')
+  assert.match(errors, /重复 id: note/)
+  assert.match(errors, /无效 Spark 日期/)
+  assert.match(errors, /标题必须/)
+  assert.match(errors, /资源缺失.*missing.md/)
+})
+
+test('Spark content checks empty text, images and embedded HTML', async t => {
+  const f = await fixture(t)
+  await f.write('sparks/empty.md', '  ')
+  await f.write('sparks/media.md', '![image](/images/avatar.png)\n\n<b>HTML</b>')
+  const errors = (await f.check()).errors.join('\n')
+  assert.match(errors, /Spark 正文不能为空/)
+  assert.match(errors, /Spark 只展示文字/)
+})
+
+test('Spark renderer preserves text formatting and rejects embedded media and executable links', async () => {
+  const { renderSpark } = await import('../src/utils/sparks-markdown.mjs')
+  const html = renderSpark('**Text**\n\n- List\n\n[link](https://example.com/)\n\n![image](https://example.com/a.png)\n\n<script>alert(1)</script>\n\n[bad](javascript:alert(1))')
+  assert.match(html, /<strong>Text<\/strong>/)
+  assert.match(html, /<li>List<\/li>/)
+  assert.match(html, /target="_blank" rel="noopener noreferrer"/)
+  assert.doesNotMatch(html, /<img|<script|javascript:/)
+})
+
+
+test('article search combines bilingual text, category and Shanghai year without mutating source', async () => {
+  const { filterPosts, postYear } = await import('../src/utils/blog-data.mjs')
+  const posts = [
+    { slug: 'old', title: '网络', summary: '笔记', category: 'technical', date: '2025-12-31T17:00:00Z', en: { title: 'Network', summary: 'Notes' } },
+    { slug: 'new', title: '上线', summary: '公告', category: 'announcement', date: '2026-11-23T12:00:00+08:00' }
+  ]
+  assert.equal(postYear(posts[0]), '2026')
+  assert.deepEqual(filterPosts(posts, { q: ' NETWORK ', category: 'technical', year: '2026' }).map(p => p.slug), ['old'])
+  assert.equal(filterPosts(posts, { q: 'network', category: 'announcement' }).length, 0)
+  assert.deepEqual(filterPosts(posts).map(p => p.slug), ['new', 'old'])
+  assert.equal(posts[0].slug, 'old')
+})
+
+test('topics validate real references, translations, duplicates and categories', async t => {
+  const f = await fixture(t)
+  const topic = { id: 'notes', title: '笔记', description: '介绍', en: { title: 'Notes', description: 'About' }, items: [{ kind: 'post', refId: 'hello' }] }
+  await f.write('data/topics.json', [topic])
+  assert.deepEqual((await f.check()).errors, [])
+  await f.write('data/topics.json', [{ ...topic, items: [...topic.items, ...topic.items, { kind: 'spark', refId: 'missing' }] }])
+  await f.write('data/posts.json', [{ ...f.post, category: 'wrong' }])
+  const errors = (await f.check()).errors.join('\n')
+  assert.match(errors, /重复专题引用/)
+  assert.match(errors, /专题引用不存在/)
+  assert.match(errors, /无效文章分类/)
 })

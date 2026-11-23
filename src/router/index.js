@@ -24,10 +24,22 @@ const routes = [
         meta: { titleKey: 'menu.blog' }
       },
       {
+        path: 'blog/topics/:topicId',
+        name: 'blog-topic',
+        component: () => import('../views/TopicView.vue'),
+        meta: { titleKey: 'menu.blog' }
+      },
+      {
         path: 'blog/:slug',
         name: 'blog-post',
         component: () => import('../views/BlogPostView.vue'),
         meta: { titleKey: 'menu.blog' }
+      },
+      {
+        path: 'sparks',
+        name: 'sparks',
+        component: () => import('../views/SparksView.vue'),
+        meta: { titleKey: 'menu.sparks' }
       },
       {
         path: 'inspiration',

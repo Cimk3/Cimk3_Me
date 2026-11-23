@@ -15,6 +15,7 @@ async function validateContent(projectRoot) {
   const publicRoot = path.join(projectRoot, 'public')
   const { dateValue } = await import(pathToFileURL(path.join(__dirname, '../src/utils/content-data.mjs')))
   const { validateResources } = await import(pathToFileURL(path.join(__dirname, '../src/utils/resources-data.mjs')))
+  const { blogCategories, resolveTopicItem } = await import(pathToFileURL(path.join(__dirname, '../src/utils/blog-data.mjs')))
   const { marked } = await import('marked')
   const errors = []
   const documents = new Map()
@@ -57,13 +58,31 @@ async function validateContent(projectRoot) {
     try { documents.set(source, JSON.parse(await fs.readFile(file, 'utf8'))) }
     catch (error) { report(source, `JSON 格式错误: ${error.message}`) }
   }
-  const required = ['profile', 'home', 'projects', 'posts', 'inspirations', 'works', 'contacts', 'music', 'resources']
+  const required = ['profile', 'home', 'projects', 'posts', 'inspirations', 'works', 'contacts', 'music', 'resources', 'sparks', 'topics']
   for (const name of required) {
     const source = `data/${name}.json`
     if (!documents.has(source) && !publicFiles.includes(path.join(publicRoot, source))) report(source, '缺少内容清单')
   }
   for (const [source, data] of documents) {
-    if (source === 'data/resources.json') {
+    if (source === 'data/topics.json') {
+      if (!Array.isArray(data)) { report(source, '专题清单必须为数组'); continue }
+      unique(data, 'id', source)
+      const catalog = { posts: documents.get('data/posts.json'), projects: documents.get('data/projects.json'), resources: documents.get('data/resources.json')?.collections }
+      for (const [index, topic] of data.entries()) {
+        if (!object(topic)) continue
+        const at = `${source}[${index}]`
+        if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(topic.id)) report(at, '专题 ID 必须使用小写字母、数字和连字符')
+        bilingual(topic, ['title', 'description'], at)
+        if (!Array.isArray(topic.items)) { report(at, '缺少专题条目数组'); continue }
+        const seen = new Set()
+        for (const entry of topic.items) {
+          if (!object(entry) || !text(entry.refId) || !resolveTopicItem(entry, catalog)) report(at, '专题引用不存在或类型无效')
+          const key = `${entry?.kind}/${entry?.refId}`
+          if (seen.has(key)) report(at, `重复专题引用: ${key}`)
+          seen.add(key)
+        }
+      }
+    } else if (source === 'data/resources.json') {
       validateResources(data).forEach(message => report(source, message))
       if (Array.isArray(data?.collections)) data.collections.forEach((collection, index) => {
         if (typeof collection?.cover === 'string' && collection.cover) resource(collection.cover, `${source}.collections[${index}].cover`)
@@ -86,7 +105,7 @@ async function validateContent(projectRoot) {
         const records = lookup && documents.get(`data/${lookup[0]}.json`)
         if (!lookup || !Array.isArray(records) || !records.some(item => item?.[lookup[1]] === entry.refId)) report(at, `推荐入口不存在: ${entry.kind}/${entry.refId}`)
       }
-      const routes = new Set(['/', '/project', '/blog', '/inspiration', '/works', '/resources', '/connect'])
+      const routes = new Set(['/', '/project', '/blog', '/inspiration', '/sparks', '/works', '/resources', '/connect'])
       const collections = documents.get('data/resources.json')?.collections
       if (Array.isArray(collections)) collections.forEach(collection => { if (collection?.id) routes.add(`/resources/${collection.id}`) })
       const posts = documents.get('data/posts.json')
@@ -103,7 +122,7 @@ async function validateContent(projectRoot) {
     } else if (source.startsWith('data/')) {
       if (!Array.isArray(data)) { report(source, '内容清单必须为数组'); continue }
       const name = path.basename(source, '.json')
-      const identity = { projects: 'id', posts: 'slug', inspirations: 'id', works: 'id', contacts: 'value', music: 'src' }[name]
+      const identity = { projects: 'id', posts: 'slug', inspirations: 'id', sparks: 'id', works: 'id', contacts: 'value', music: 'src' }[name]
       if (identity) unique(data, identity, source)
       for (const [index, item] of data.entries()) {
         if (!object(item)) continue
@@ -127,7 +146,15 @@ async function validateContent(projectRoot) {
             try { const url = new URL(link?.href); if (!['https:', 'http:'].includes(url.protocol)) throw new Error() } catch { report(`${at}.links`, '入口必须为 HTTP/HTTPS 网址') }
           }
         }
+        if (name === 'sparks') {
+          requireText(item.id, `${at}.id`)
+          if (item.title !== undefined && !text(item.title)) report(`${at}.title`, '标题必须为非空文本或省略')
+          if (typeof item.date !== 'string' || !item.date.includes('T') || !Number.isFinite(dateValue(item.date))) report(`${at}.date`, '无效 Spark 日期，应为含时区的 ISO 时间')
+          if (typeof item.md !== 'string' || !/^\/sparks\/[^?#]+\.md$/.test(item.md)) report(`${at}.md`, '正文路径必须为 /sparks/ 下的 Markdown 文件')
+          resource(item.md, `${at}.md`)
+        }
         if (name === 'posts') {
+          if (item.category !== undefined && !blogCategories.includes(item.category)) report(`${at}.category`, '无效文章分类')
           bilingual(item, ['title', 'summary'], at)
           if (!Number.isFinite(dateValue(item.date)) || !item.date.includes('T')) report(`${at}.date`, '无效文章日期，应为含时区的 ISO 时间')
           resource(item.md, `${at}.md`)
@@ -182,7 +209,10 @@ async function validateContent(projectRoot) {
   for (const file of publicFiles.filter(file => file.endsWith('.md'))) {
     const source = path.relative(publicRoot, file)
     const md = await fs.readFile(file, 'utf8')
+    const spark = path.relative(publicRoot, file).replaceAll('\\', '/').startsWith('sparks/')
+    if (spark && !md.trim()) report(source, 'Spark 正文不能为空')
     marked.walkTokens(marked.lexer(md), token => {
+      if (spark && ['image', 'html'].includes(token.type)) report(source, 'Spark 只展示文字，请删除图片或内嵌 HTML，或改用文字链接')
       if (token.type === 'image' || token.type === 'link') resource(token.href, source)
       if (token.type === 'html') scanStatic(token.raw, source)
     })

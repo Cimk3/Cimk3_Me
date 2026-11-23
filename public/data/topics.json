@@ -1,0 +1,52 @@
+[
+  {
+    "id": "game-projects",
+    "title": "游戏项目",
+    "description": "游戏项目、试玩公告与相关创作资源。",
+    "en": {
+      "title": "Game projects",
+      "description": "Game projects, launch notes, and resources for creating games."
+    },
+    "items": [
+      {
+        "kind": "project",
+        "refId": "operation-iron-rain"
+      },
+      {
+        "kind": "post",
+        "refId": "operation-iron-rain-site-update"
+      },
+      {
+        "kind": "project",
+        "refId": "food-and-table"
+      },
+      {
+        "kind": "resource",
+        "refId": "minecraft"
+      },
+      {
+        "kind": "resource",
+        "refId": "game-tools"
+      }
+    ]
+  },
+  {
+    "id": "personal-site",
+    "title": "个人站记录",
+    "description": "网站介绍，以及页面和加载方面的更新记录。",
+    "en": {
+      "title": "Personal site notes",
+      "description": "An introduction to this site and notes on its pages and loading improvements."
+    },
+    "items": [
+      {
+        "kind": "post",
+        "refId": "hello"
+      },
+      {
+        "kind": "post",
+        "refId": "operation-iron-rain-site-update"
+      }
+    ]
+  }
+]
